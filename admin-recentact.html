@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Sebaste Community Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet">
+  <style>
+    /* Basic Reset and Body Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    } 
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #333;
+      background-color: #f0f5ff;
+      overflow-x: hidden;
+    }
+
+    /* Background with white filter */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('bg.jpg'); /* Ensure this image path is correct */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    /* ===== NAVBAR STYLES ===== */
+    .navbar-container {
+      background-color: white;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .navbar-container header {
+      height: 90px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hospital-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 60px;
+      overflow: hidden;
+    }
+
+    .logo-container img {
+      max-height: 79px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .hospital-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0B6A27;
+      text-align: left;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hospital-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* User info in navbar */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: #0B6A27;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .admin-badge {
+      background-color: #0B6A27;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+
+    /* ===== DASHBOARD LAYOUT ===== */
+    .dashboard-container {
+      display: flex;
+      margin-top: 90px; /* Height of navbar */
+      min-height: calc(100vh - 90px);
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+      width: 280px;
+      background-color: white;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px 0;
+      position: fixed;
+      top: 90px; /* Below navbar */
+      left: 0;
+      height: calc(100vh - 90px);
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .sidebar-menu a:hover {
+      background-color: rgba(11, 106, 39, 0.1);
+    }
+
+    .sidebar-menu a.active {
+      background-color: rgba(11, 106, 39, 0.15);
+      border-left: 4px solid #0B6A27;
+      color: #0B6A27;
+    }
+
+    .sidebar-menu .icon {
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+
+    .sidebar-menu .icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Main content area */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      margin-left: 280px; /* Width of sidebar */
+    }
+
+    .dashboard-header {
+      margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* Dashboard cards */
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background-color: rgba(11, 106, 39, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0B6A27;
+    }
+
+    .card-content {
+      margin-bottom: 15px;
+    }
+
+    .card-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .card-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .card-footer a {
+      color: #0B6A27;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Recent activity section */
+    .recent-activity {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-weight: 700;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .view-all {
+      color: #0B6A27;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .view-all:hover {
+      text-decoration: underline;
+    }
+
+    .activity-list {
+      list-style: none;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background-color: rgba(11, 106, 39, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0B6A27;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .activity-details {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .activity-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Upcoming appointments section (used for Recent Patients) */
+    .upcoming-appointments {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .appointment-list {
+      list-style: none;
+    }
+
+    .appointment-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .appointment-item:last-child {
+      border-bottom: none;
+    }
+
+    .appointment-date {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(11, 106, 39, 0.1);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .appointment-day {
+      font-weight: 700;
+      font-size: 20px;
+      color: #0B6A27;
+    }
+
+    .appointment-month {
+      font-size: 14px;
+      color: #0B6A27;
+    }
+
+    .appointment-details {
+      flex: 1;
+    }
+
+    .appointment-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .appointment-doctor {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .appointment-time {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .appointment-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .appointment-btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .reschedule-btn {
+      background-color: rgba(11, 106, 39, 0.1);
+      color: #0B6A27;
+    }
+
+    .reschedule-btn:hover {
+      background-color: rgba(11, 106, 39, 0.2);
+    }
+
+    .cancel-btn {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+    }
+
+    .cancel-btn:hover {
+      background-color: rgba(220, 53, 69, 0.2);
+    }
+
+    /* Admin specific styles */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .admin-table th, .admin-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .admin-table th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .admin-table tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-confirmed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-cancelled {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .status-completed {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .edit-btn {
+      background-color: rgba(13, 110, 253, 0.1);
+      color: #0d6efd;
+    }
+
+    .edit-btn:hover {
+      background-color: rgba(13, 110, 253, 0.2);
+    }
+
+    .delete-btn {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+    }
+
+    .delete-btn:hover {
+      background-color: rgba(220, 53, 69, 0.2);
+    }
+
+    .view-btn {
+      background-color: rgba(25, 135, 84, 0.1);
+      color: #198754;
+    }
+
+    .view-btn:hover {
+      background-color: rgba(25, 135, 84, 0.2);
+    }
+
+    /* Form styles */
+    .admin-form {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #0B6A27;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #0B6A27;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #094e1d;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 80px;
+        padding: 20px 0;
+      }
+
+      .sidebar-menu a {
+        padding: 15px;
+        justify-content: center;
+      }
+
+      .sidebar-menu .icon {
+        margin-right: 0;
+      }
+
+      .sidebar-menu .menu-text {
+        display: none;
+      }
+
+      .main-content {
+        margin-left: 80px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-container header {
+        padding: 0 20px;
+      }
+
+      .dashboard-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .user-name {
+        display: none;
+      }
+
+      .admin-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .sidebar {
+        width: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.active {
+        width: 250px;
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .appointment-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .appointment-actions {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    /* Removed New Appointment Trends Section Styles */
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="navbar-container">
+    <header>
+      <div class="hospital-container">
+        <div class="logo-container">
+          <img src="logoright.jpg" alt="Logo Right" />
+        </div>
+        <div class="logo-container">
+          <img src="logoleft.jpg" alt="Logo Left" />
+        </div>
+        <div class="hospital-name">
+          <p class="hospital-line">Sebaste Community</p>
+          <p class="hospital-line">Hospital</p>
+        </div>
+      </div>
+      <div class="user-info">
+        <div class="user-avatar">A</div>
+        <div class="user-name">Admin <span class="admin-badge">Admin</span></div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul class="sidebar-menu">
+        <li>
+          <a href="admin-dashboard.html" class="active">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.20312 21.9844V3.28125H15.6953V21.9844H3.20312Z" fill="currentColor"/>
+                <path d="M25.3047 10.1719V3.28125H37.7969V10.1719H25.3047Z" fill="currentColor"/>
+                <path d="M25.3047 38.7188V20.0156H37.7969V38.7188H25.3047Z" fill="currentColor"/>
+                <path d="M3.20312 38.7188V31.8281H15.6953V38.7188H3.20312Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M22.1016 1.3125C22.1016 0.587626 22.6752 0 23.3828 0H39.7187C40.4264 0 41 0.587627 41 1.3125V12.1406C41 12.8655 40.4264 13.4531 39.7187 13.4531H23.3828C22.6752 13.4531 22.1016 12.8655 22.1016 12.1406V1.3125ZM25.3047 3.28125V10.1719H37.7969V3.28125H25.3047Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M22.1016 18.0469C22.1016 17.322 22.6752 16.7344 23.3828 16.7344H39.7187C40.4264 16.7344 41 17.322 41 18.0469V40.6875C41 41.4124 40.4264 42 39.7187 42H23.3828C22.6752 42 22.1016 41.4124 22.1016 40.6875V18.0469ZM25.3047 20.0156V38.7188H37.7969V20.0156H25.3047Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.6172 0H1.28125C0.573635 0 0 0.587626 0 1.3125V23.9531C0 24.678 0.573635 25.2656 1.28125 25.2656H17.6172C18.3248 25.2656 18.8984 24.678 18.8984 23.9531V1.3125C18.8984 0.587627 18.3248 0 17.6172 0ZM3.20312 3.28125V21.9844H15.6953V3.28125H3.20312Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.6172 28.5469H1.28125C0.573635 28.5469 0 29.1345 0 29.8594V40.6875C0 41.4124 0.573635 42 1.28125 42H17.6172C18.3248 42 18.8984 41.4124 18.8984 40.6875V29.8594C18.8984 29.1345 18.3248 28.5469 17.6172 28.5469ZM3.20312 31.8281V38.7188H15.6953V31.8281H3.20312Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="menu-text">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin-appointments.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 45 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 17H42M3 17V37.5338C3 40.1474 3 41.4535 3.53134 42.4517C3.99873 43.3298 4.74396 44.0445 5.66125 44.4919C6.70305 45 8.06755 45 10.7925 45H34.2075C36.9324 45 38.295 45 39.3368 44.4919C40.2541 44.0445 41.0018 43.3298 41.4692 42.4517C42 41.4545 42 40.1501 42 37.5417V17M3 17V15.1338C3 12.5202 3 11.2124 3.53134 10.2142C3.99873 9.3361 4.74396 8.62271 5.66125 8.1753C6.70407 7.66667 8.07022 7.66667 10.8005 7.66667H12.75M42 17V15.1261C42 12.5177 42 11.2115 41.4692 10.2142C41.0018 9.3361 40.2541 8.62271 39.3368 8.1753C38.294 7.66667 36.9307 7.66667 34.2005 7.66667H32.25M12.75 7.66667H32.25M12.75 7.66667V3M32.25 7.66667V3M21.8906 35.6667C22.2272 35.6667 22.5 35.4055 22.5 35.0833V26.9167C22.5 26.5945 22.2272 26.3333 21.8906 26.3333H13.3594C13.0228 26.3333 12.75 26.5945 12.75 26.9167V35.0833C12.75 35.4055 13.0228 35.6667 13.3594 35.6667H21.8906Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="menu-text">Appointments</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin-patient.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M17.5 3.29076C18.9659 3.88415 20 5.32131 20 7C20 8.67869 18.9659 10.1159 17.5 10.7092M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="menu-text">Patients</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin-staff.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.3503 17.623 3.8507 18.1676 4.55231C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="menu-text">Staff</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin-settings.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 50 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.3526 50.9167L17.3859 42.7834C16.8623 42.5716 16.3689 42.3174 15.9057 42.0209C15.4425 41.7243 14.9894 41.4066 14.5464 41.0678L7.35677 44.2448L0.710938 32.1719L6.93385 27.2157C6.89358 26.9191 6.87344 26.6332 6.87344 26.3579V24.6422C6.87344 24.3669 6.89358 24.0809 6.93385 23.7844L0.710938 18.8282L7.35677 6.75525L14.5464 9.93233C14.9894 9.59344 15.4526 9.27574 15.9359 8.97921C16.4193 8.68268 16.9026 8.42851 17.3859 8.21671L18.3526 0.083374H31.6443L32.6109 8.21671C33.1345 8.42851 33.628 8.68268 34.0911 8.97921C34.5543 9.27574 35.0075 9.59344 35.4505 9.93233L42.6401 6.75525L49.2859 18.8282L43.063 23.7844C43.1033 24.0809 43.1234 24.3669 43.1234 24.6422V26.3579C43.1234 26.6332 43.0832 26.9191 43.0026 27.2157L49.2255 32.1719L42.5797 44.2448L35.4505 41.0678C35.0075 41.4066 34.5443 41.7243 34.0609 42.0209C33.5776 42.3174 33.0943 42.5716 32.6109 42.7834L31.6443 50.9167H18.3526ZM25.1193 34.3959C27.4554 34.3959 29.4491 33.5275 31.1005 31.7907C32.7519 30.0539 33.5776 27.957 33.5776 25.5C33.5776 23.0431 32.7519 20.9462 31.1005 19.2094C29.4491 17.4726 27.4554 16.6042 25.1193 16.6042C22.7429 16.6042 20.7391 17.4726 19.1078 19.2094C17.4766 20.9462 16.6609 23.0431 16.6609 25.5C16.6609 27.957 17.4766 30.0539 19.1078 31.7907C20.7391 33.5275 22.7429 34.3959 25.1193 34.3959Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="menu-text">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <h1>Recent Activity</h1>
+        <p> Recent medical interactions, appointments, and updates.</p>
+      </div>
+
+ 
+
+      <!-- Recent Activity -->
+      <div class="recent-activity">
+        <div class="section-header">
+          <h2 class="section-title">Recent Activity</h2>
+        </div>
+        <ul class="activity-list">
+          <li class="activity-item">
+            <div class="activity-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <h4 class="activity-title">New Appointment Scheduled</h4>
+              <div class="activity-meta">
+                <span>Hazel Anne Fajardo- General Checkup with Dr. Alvarez</span>
+                <span>Today, 09:15 AM</span>
+              </div>
+            </div>
+          </li>
+          <li class="activity-item">
+            <div class="activity-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <h4 class="activity-title">Lab Results Updated</h4>
+              <div class="activity-meta">
+                <span>Patient: Rio Nava - Blood Test Results</span>
+                <span>Today, 08:30 AM</span>
+              </div>
+            </div>
+          </li>
+          <li class="activity-item">
+            <div class="activity-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8L8 16M8 8L16 16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <h4 class="activity-title">Appointment Cancelled</h4>
+              <div class="activity-meta">
+                <span>Patient: Mel Mendoza- Consultation with Dr. Torres</span>
+                <span>Yesterday, 4:45 PM</span>
+              </div>
+            </div>
+          </li>
+          <li class="activity-item">
+            <div class="activity-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19.4 15C19.2669 15.3016 19.227 15.6363 19.2863 15.9606C19.3455 16.2849 19.5006 16.5816 19.7276 16.8086C19.9546 17.0356 20.2416 17.181 20.5559 17.2227C20.8702 17.2644 21.1948 17.2003 21.48 17.04M3 12C3 13.1819 3.23279 14.3522 3.68508 15.4442C4.13738 16.5361 4.80031 17.5282 5.63604 18.364C6.47177 19.1997 7.46392 19.8626 8.55585 20.3149C9.64778 20.7672 10.8181 21 12 21C13.1819 21 14.3522 20.7672 15.4442 20.3149C16.5361 19.8626 17.5282 19.1997 18.364 18.364C19.1997 17.5282 19.8626 16.5361 20.3149 15.4442C20.7672 14.3522 21 13.1819 21 12C21 10.8181 20.7672 9.64778 20.3149 8.55585C19.1997 6.47177 19.1997 6.47177 18.364 5.63604C17.5282 4.80031 16.5361 4.13738 15.4442 3.68508C14.3522 3.23279 13.1819 3 12 3C10.8181 3 9.64778 3.23279 8.55585 3.68508C7.46392 4.13738 6.47177 4.80031 5.63604 5.63604C4.80031 6.47177 4.13738 7.46392 3.68508 8.55585C3.23279 9.64778 3 10.8181 3 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="activity-details">
+              <h4 class="activity-title">System Update</h4>
+              <div class="activity-meta">
+                <span>Version 2.3.1 installed successfully</span>
+                <span>May 29, 2025</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Load appointments from localStorage
+    const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+    
+    // Update Recent Activity
+    const activityList = document.querySelector('.activity-list');
+    activityList.innerHTML = '';
+    
+    // Sort appointments by submission date (newest first)
+    const recentAppointments = [...appointments]
+        .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))
+        .slice(0, 10); // Show more activities on the dedicated page
+    
+    if (recentAppointments.length === 0) {
+        activityList.innerHTML = `
+            <li class="activity-item">
+                <div class="activity-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="activity-details">
+                    <h4 class="activity-title">No Recent Activity</h4>
+                    <div class="activity-meta">
+                        <span>No activity has been recorded yet</span>
+                        <span>-</span>
+                    </div>
+                </div>
+            </li>
+        `;
+    } else {
+        recentAppointments.forEach(apt => {
+            const activityItem = document.createElement('li');
+            activityItem.className = 'activity-item';
+            
+            // Determine activity type based on status
+            let activityType, iconSVG;
+            if (apt.status === 'cancelled') {
+                activityType = 'Appointment Cancelled';
+                iconSVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 8L8 16M8 8L16 16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>`;
+            } else {
+                activityType = 'New Appointment Scheduled';
+                iconSVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>`;
+            }
+            
+            // Format date
+            const formattedDate = new Date(apt.submittedAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            activityItem.innerHTML = `
+                <div class="activity-icon">${iconSVG}</div>
+                <div class="activity-details">
+                    <h4 class="activity-title">${activityType}</h4>
+                    <div class="activity-meta">
+                        <span>${apt.firstName} ${apt.lastName} - ${apt.serviceType ? apt.serviceType.replace(/-/g, ' ') : 'General Service'} with ${apt.doctor ? apt.doctor.replace('dr-', 'Dr. ') : 'Hospital Staff'}</span>
+                        <span>${formattedDate}</span>
+                    </div>
+                </div>
+            `;
+            activityList.appendChild(activityItem);
+        });
+    }
+    
+    // Update dashboard when localStorage changes
+    window.addEventListener('storage', () => {
+        const updatedAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+        if (JSON.stringify(appointments) !== JSON.stringify(updatedAppointments)) {
+            location.reload();
+        }
+    });
+    
+    // Check if user is admin/staff (this would normally be server-side)
+    const isAdmin = true; 
+    
+    if (!isAdmin) {
+        // Redirect non-admin users
+        window.location.href = 'login.html';
+    }
+    
+    // Handle mobile menu toggle if needed
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    }
+});
+  </script>
+</body>
+</html>

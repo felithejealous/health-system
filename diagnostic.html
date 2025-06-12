@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnostic Imaging - Sebaste Community Hospital</title>
+  <link rel="stylesheet" href="used.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #D7EEDE;
+      color: #333;
+    }
+
+    /* ===== NAVBAR STYLES ===== */
+    .navbar-container {
+      background-color: white;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navbar-container header {
+      height: 90px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hospital-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 60px;
+      overflow: hidden;
+    }
+
+    .logo-container img {
+      max-height: 79px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .hospital-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0B6A27;
+      text-align: left;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hospital-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      color: #333333;
+      padding: 8px 16px;
+      border-radius: 10px;
+      transition: 0.3s ease-in-out;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: rgba(11, 106, 39, 0.2);
+    }
+
+    nav a:active,
+    nav a.active {
+      background-color: #0B6A27;
+      color: white;
+    }
+
+    /* Hero Section */
+    .photo-background-container {
+      background-color: #D7EEDE;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .background-container {
+      position: relative;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 580px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .background-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: inherit;
+      background-size: inherit;
+      background-position: inherit;
+      background-repeat: inherit;
+      filter: blur(2px);
+      z-index: 1;
+    }
+
+    .background-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(247, 237, 237, 0.685);
+      z-index: 2;
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .title {
+      font-family: 'Poppins', sans-serif;
+      color: #000000;
+      font-weight: 900;
+      font-size: 50px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    .divider {
+      background-color: #0C634E;
+      width: 100%;
+      height: 80px;
+      margin-bottom: 20px;
+      margin-top: 0px;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 6rem auto;
+      padding: 0 2rem;
+      font-size: 20px;
+      background-color: #D7EEDE;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section p {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+
+    .filter-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2rem 0;
+      padding: 0.75rem 1rem;
+      background-color: transparent;
+      border-radius: 8px;
+    }
+
+    .filter-section label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .filter-section select {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #888;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      background-color: transparent;
+      color: #333;
+      cursor: pointer;
+      min-width: 200px;
+    }
+
+    .filter-section select:focus {
+      outline: none;
+      border-color: #666;
+      box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+    }
+
+    ol {
+      padding-left: 20px;
+    }
+
+    ul {
+      padding-left: 40px;
+      margin-top: 6px;
+      margin-bottom: 15px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .back-button {
+      margin: 1rem 0;
+    }
+
+    .back-button button {
+      padding: 10px 20px;
+      background-color: #5D988A;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button button:hover {
+      background-color: #4a7a6d;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0C634E;
+      color: white;
+      padding: 40px 20px 20px 20px;
+      width: 100%;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .footer-logo-container {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px;
+      height: auto;
+      z-index: 10;
+    }
+
+    .footer-logo-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-left: 140px;
+    }
+
+    .footer-item {
+      flex: 1;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .footer-item p {
+      margin: 4px 0;
+    }
+
+    .bold {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .copyright {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 11px;
+      padding-left: 140px;
+    }
+
+    /* ===== ELEGANT FADE-IN ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0.2;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      filter: blur(1px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .fade-in-delay-1 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-3 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-4 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-5 {
+      transition-delay: 0.2s;
+    }
+
+    /* Enhanced shadows for polished look */
+    .section {
+      transition: box-shadow 0.3s ease;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1366px) {
+      .navbar-container header {
+        padding: 0 20px;
+      }
+      
+      nav {
+        gap: 10px;
+      }
+      
+      nav a {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-container header {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 90px;
+      }
+
+      .hospital-container {
+        flex-wrap: wrap;
+      }
+
+      .hospital-name {
+        font-size: 18px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      nav a {
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+
+      .background-container {
+        height: 450px;
+      }
+
+      .content {
+        margin: 3rem auto;
+        padding: 0 1rem;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        padding-left: 20px;
+        gap: 20px;
+      }
+
+      .footer-logo-container {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
+        width: 80px;
+      }
+
+      .copyright {
+        padding-left: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-container header {
+        padding: 0 10px;
+      }
+
+      .hospital-name {
+        font-size: 16px;
+      }
+
+      .title {
+        font-size: 28px;
+      }
+
+      .content {
+        font-size: 18px;
+      }
+
+      ol, ul {
+        padding-left: 20px;
+      }
+
+      ul {
+        padding-left: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar-container">
+    <header>
+      <div class="hospital-container">
+        <div class="logo-container">
+          <img src="logoright.jpg" alt="Logo Right" />
+        </div>
+        <div class="logo-container">
+          <img src="logoleft.jpg" alt="Logo Left" />
+        </div>
+        <div class="hospital-name">
+          <p class="hospital-line">Sebaste Community</p>
+          <p class="hospital-line">Hospital</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="DOCTOR.html">Find Doctors</a>
+        <a href="services.html" class="active">Our Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="FAQs.html">FAQs</a>
+      </nav>
+    </header>
+  </div>
+
+  <div class="main-container">
+    <div class="photo-background-container">
+      <div class="background-container">
+        <div class="main-content">
+          <h1 class="title fade-in">DIAGNOSTIC IMAGING</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="content" style="position: relative;">
+    <div class="section fade-in fade-in-delay-1">
+      <p>At<strong> <span class="highlight">Sebaste Community Hospital</span></strong> Diagnostic tests are medical procedures that help identify, monitor, or rule out health conditions. Our hospital offers:</p>
+      <p class="fade-in fade-in-delay-1">Types of Diagnostic Rests Available: </p>
+      
+      <ol class="fade-in fade-in-delay-2">
+        <li><strong>Laboratory Tests</strong>
+          <ul>
+            <li>Blood tests: CBC (₱120), Blood Typing (₱50), Cholesterol (₱125)</li>
+            <li>Urine/Stool tests: Routine Urinalysis (₱50), Fecalysis (₱50)</li>
+            <li>Infectious disease tests: Dengue (₱500–₱800), COVID-19 (₱500), Hepatitis B (₱200)</li>
+          </ul>
+        </li>
+
+        <li><strong>Imaging Services</strong>
+          <ul>
+            <li>X-rays (₱400–₱800): Chest, bones, spine)</li>
+            <li>Ultrasound (₱700): Abdomen, pregnancy, breast</li>
+            <li>ECG: Heart function evaluation</li>
+          </ul>
+        </li>
+
+        <li><strong>Specialized Services</strong>
+          <ul>
+            <li>Pregnancy Test (₱150), Syphilis/RPR (₱150)</li>
+            <li>Newborn Screening (included in ₱1,750 Newborn Care Package)</li>     
+          </ul>
+        </li>
+      </ol>
+      
+      <p class="fade-in fade-in-delay-3"><strong>Why it matters?</strong></p>
+      <ul class="fade-in fade-in-delay-3">
+        <li>Early detection of diseases (e.g., diabetes, infections).</li>
+        <li>Guides treatment plans for doctors.</li>
+        <li>Affordable pricing under *Ordinance No. 2012-07*.</li>
+      </ul>
+      
+      <br/><br/>
+      <p class="fade-in fade-in-delay-4">"Accurate diagnostics for better health decisions"</p>
+      <p class="fade-in fade-in-delay-4">Need a test? Call(036) 278-2042 for inquiries.</p>
+    </div>
+     
+    <!-- Back Button -->
+    <div class="back-button fade-in fade-in-delay-5">
+      <button onclick="history.back()">
+        &larr; Back
+      </button>
+    </div>
+  </div>
+
+  <footer class="fade-in fade-in-delay-5">
+    <div class="footer-logo-container">
+      <img src="footer.jpg" alt="Footer Logo" />
+    </div>
+    <div class="footer-container">
+      <div class="footer-item">
+        <p class="bold">Contact Us</p>
+        <p class="bold">Sebaste Community Hospital</p>
+        <p>Address: Azucena Extension Poblacion Sebaste, Antique, Sebaste, Philippines</p>
+        <p>Phone: +63 945 136 7487</p>
+      </div>
+      <div class="footer-item">
+        <p class="bold">Sebaste Rural Health Unit</p>
+        <p>Address: H3QV+4R6, Iloilo-Antique Rd, Sebaste, Antique</p>
+        <p>Phone: (036) 278 2077</p>
+      </div>
+    </div>
+    <p class="copyright">Copyright © Municipality of Sebaste 2025 - All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // Elegant fade-in animation on scroll
+    function handleScrollAnimations() {
+      const elements = document.querySelectorAll('.fade-in');
+      
+      elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('visible');
+        }
+      });
+    }
+
+    // Initialize animations on page load
+    window.addEventListener('load', () => {
+      setTimeout(handleScrollAnimations, 100);
+    });
+
+    // Handle scroll animations
+    window.addEventListener('scroll', handleScrollAnimations);
+
+    // Handle resize for responsive behavior
+    window.addEventListener('resize', handleScrollAnimations);
+  </script>
+</body>
+</html>

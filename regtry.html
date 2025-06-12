@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+   
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet">
+    <style>
+        /* General styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #333;
+            background-color: #D7EEDE;
+            overflow-x: hidden;
+        }
+
+        /* Background with white filter */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('bg.jpg'); /* Replace with your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15; /* Subtle visibility */
+            z-index: -1;
+        }
+
+        /* ===== NAVBAR STYLES ===== */
+        .navbar-container {
+            background-color: white;
+            width: 100%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container header {
+            height: 90px;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .hospital-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            height: 100%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 60px;
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            max-height: 79px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .hospital-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: #0B6A27;
+            text-align: left;
+            line-height: 1.2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hospital-line {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* User info in navbar (not present in current HTML but good to keep for consistency) */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #0B6A27;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* ===== DASHBOARD LAYOUT ===== */
+        .dashboard-container {
+            display: flex;
+            margin-top: 90px; /* Height of navbar */
+            min-height: calc(100vh - 90px);
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 0; /* Adjusted for full width on smaller screens */
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            margin-left: 0; /* Adjusted for full width on smaller screens */
+        }
+
+        .dashboard-header p {
+            color: #666;
+            font-size: 16px;
+            text-align: center;
+            margin-left: 0; /* Adjusted for full width on smaller screens */
+            font-weight: 500;
+        }
+
+        /* Appointment Form Styles */
+        .appointment-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            margin-bottom: 30px;
+            margin-right: 0; /* Adjusted for full width on smaller screens */
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #0B6A27;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-steps {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .progress-step {
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            color: #0B6A27;
+            font-weight: 600;
+            background-color: rgba(11, 106, 39, 0.1);
+        }
+
+        .progress-step.completed {
+            color: #0B6A27;
+            background-color: rgba(11, 106, 39, 0.05);
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            margin-right: 0; /* Adjusted for full width on smaller screens */
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .form-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Specific styles for textarea */
+        .form-group textarea {
+            resize: none; /* Disable user resizing */
+            overflow-y: hidden; /* Hide vertical scrollbar, as height will adjust */
+            min-height: 80px; /* Set an initial height */
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0B6A27;
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+
+        .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .unit-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .unit-input input {
+            flex: 2;
+        }
+
+        .unit-input select {
+            flex: 1;
+        }
+
+        .medication-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .medication-row button {
+            padding: 8px 12px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-medication-btn {
+            background-color: #0B6A27;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        /* Form Navigation */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-prev {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-prev:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-next {
+            background-color: #0B6A27;
+            color: white;
+        }
+
+        .btn-next:hover {
+            background-color: #095020;
+        }
+
+        .btn-submit {
+            background-color: #0B6A27;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #095020;
+        }
+
+        /* Receipt Form Styles */
+        .receipt-section {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .receipt-section h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #0B6A27;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .receipt-section p {
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .receipt-section p strong {
+            color: #333;
+            display: inline-block;
+            min-width: 180px; /* Adjust as needed for alignment */
+            margin-right: 10px;
+        }
+
+        .receipt-medication-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Thank You Message */
+        .thank-you-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: none;
+            margin-right: 0; /* Adjusted for full width on smaller screens */
+        }
+
+        .thank-you-container h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #0B6A27;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-container p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-container .btn {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* Password Setup Modal */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .password-modal.active {
+            display: flex;
+        }
+
+        .password-modal-content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .password-modal h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .password-modal p {
+            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .password-strength {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .strength-weak { color: #dc3545; }
+        .strength-medium { color: #ffc107; }
+        .strength-strong { color: #28a745; }
+
+        /* Hide all forms initially except the first one */
+        .form-container {
+            display: none;
+        }
+
+        #personalInfoForm {
+            display: block; /* This will be the first displayed form */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .progress-steps {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container header {
+                padding: 0 20px;
+            }
+
+            .form-container {
+                padding: 20px;
+                margin-right: 0;
+            }
+
+            .progress-container {
+                margin-right: 0;
+            }
+
+            .dashboard-header h1 {
+                margin-left: 0;
+            }
+
+            .dashboard-header p {
+                margin-left: 0;
+            }
+
+            .medication-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .unit-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .form-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .receipt-section p strong {
+                min-width: 120px; /* Adjust for smaller screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar-container">
+        <header>
+            <div class="hospital-container">
+                <div class="logo-container">
+                    <img src="logoright.jpg" alt="Logo Right" />
+                </div>
+                <div class="logo-container">
+                    <img src="logoleft.jpg" alt="Logo Left" />
+                </div>
+                <div class="hospital-name">
+                    <p class="hospital-line">Sebaste Community</p>
+                    <p class="hospital-line">Hospital</p>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1>Medical Registration</h1>
+                <p>Kindly fill in the form below to submit your medical background and relevant details.</p>
+            </div>
+
+            <!-- Registration Section -->
+            <div class="appointment-container">
+                <!-- Progress Indicator -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 12.5%;"></div>
+                    </div>
+                    <div class="progress-steps">
+                        <div class="progress-step active" id="step1">Personal Info</div>
+                        <div class="progress-step" id="step2">Health Info</div>
+                        <div class="progress-step" id="step3">Emergency Contact</div>
+                        <div class="progress-step" id="step4">Medical Conditions</div>
+                        <div class="progress-step" id="step5">Health Details</div>
+                        <div class="progress-step" id="step6">Lifestyle</div>
+                        <div class="progress-step" id="step7">Vaccination</div>
+                        <div class="progress-step" id="step8">Complete</div>
+                    </div>
+                </div>
+
+                <!-- 1. Personal Information Form -->
+                <div class="form-container" id="personalInfoForm">
+                    <h2 class="form-title">Personal Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="required">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName">Middle Name</label>
+                            <input type="text" id="middleName" name="middleName">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="required">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="required">Address</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mobileNumber" class="required">Mobile Number</label>
+                            <input type="tel" id="mobileNumber" name="mobileNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday" class="required">Birthday</label>
+                            <input type="date" id="birthday" name="birthday" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gender" class="required">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="required">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-navigation">
+                        <div></div>
+                        <button type="button" class="btn btn-next" onclick="nextForm(1)">Next</button>
+                    </div>
+                </div>
+
+                <!-- 2. Basic Health Information Form -->
+                <div class="form-container" id="healthInfoForm">
+                    <h2 class="form-title">Basic Health Information</h2>
+                    <div class="form-group">
+                        <label for="bloodType" class="required">Blood Type</label>
+                        <select id="bloodType" name="bloodType" required>
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="height" class="required">Height</label>
+                            <div class="unit-input">
+                                <input type="number" id="height" name="height" step="0.1" required>
+                                <select id="heightUnit" name="heightUnit">
+                                    <option value="cm">cm</option>
+                                    <option value="ft">ft</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight" class="required">Weight</label>
+                            <div class="unit-input">
+                                <input type="number" id="weight" name="weight" step="0.1" required>
+                                <select id="weightUnit" name="weightUnit">
+                                    <option value="kg">kg</option>
+                                    <option value="lbs">lbs</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="disabilities">Disabilities and/or Impairments</label>
+                        <textarea id="disabilities" name="disabilities" rows="3" placeholder="Please specify any disabilities or impairments"></textarea>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(2)">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextForm(2)">Next</button>
+                    </div>
+                </div>
+
+                <!-- 3. Emergency Contact Form -->
+                <div class="form-container" id="emergencyContactForm">
+                    <h2 class="form-title">Emergency Contact</h2>
+                    <div class="form-group">
+                        <label for="emergencyContactName" class="required">Emergency Contact Name</label>
+                        <input type="text" id="emergencyContactName" name="emergencyContactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emergencyContactNumber" class="required">Mobile Phone Number</label>
+                        <input type="tel" id="emergencyContactNumber" name="emergencyContactNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emergencyRelationship" class="required">Relationship</label>
+                        <select id="emergencyRelationship" name="emergencyRelationship" required>
+                            <option value="">Select Relationship</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Child">Child</option>
+                            <option value="Sibling">Sibling</option>
+                            <option value="Friend">Friend</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(3)">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextForm(3)">Next</button>
+                    </div>
+                </div>
+
+                <!-- 4. Past Medical Conditions Form -->
+                <div class="form-container" id="medicalConditionsForm">
+                    <h2 class="form-title">Past Medical Conditions</h2>
+                    <p style="margin-bottom: 20px; color: #666;">Please check all conditions that apply to you:</p>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hypertension" name="medicalConditions" value="Hypertension">
+                            <label for="hypertension">Hypertension</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="diabetes" name="medicalConditions" value="Diabetes">
+                            <label for="diabetes">Diabetes</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="asthma" name="medicalConditions" value="Asthma">
+                            <label for="asthma">Asthma</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="heartDisease" name="medicalConditions" value="Heart Disease">
+                            <label for="heartDisease">Heart Disease</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="tuberculosis" name="medicalConditions" value="Tuberculosis">
+                            <label for="tuberculosis">Tuberculosis</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="seizures" name="medicalConditions" value="Seizures">
+                            <label for="seizures">Seizures</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cancer" name="medicalConditions" value="Cancer">
+                            <label for="cancer">Cancer</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="stroke" name="medicalConditions" value="Stroke">
+                            <label for="stroke">Stroke</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mentalHealth" name="medicalConditions" value="Mental Health Issues (e.g., Depression, Anxiety)">
+                            <label for="mentalHealth">Mental Health Issues (e.g., Depression, Anxiety)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="otherCondition" name="medicalConditions" value="Other">
+                            <label for="otherCondition">Other</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="otherConditionDetails">If Other, please specify:</label>
+                        <textarea id="otherConditionDetails" name="otherConditionDetails" rows="3" placeholder="Please specify other medical conditions"></textarea>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(4)">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextForm(4)">Next</button>
+                    </div>
+                </div>
+
+                <!-- 5. Other Health Details Form -->
+                <div class="form-container" id="healthDetailsForm">
+                    <h2 class="form-title">Other Health Details</h2>
+
+                    <!-- Surgeries -->
+                    <div class="form-group">
+                        <label>Have you had any surgeries?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="hasSurgeries" value="Yes" onchange="toggleSurgeryDetails(true)">
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="hasSurgeries" value="No" onchange="toggleSurgeryDetails(false)">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="surgeryDetails" style="display: none;">
+                        <label for="surgerySpecification">If Yes, please specify:</label>
+                        <textarea id="surgerySpecification" name="surgerySpecification" rows="3" placeholder="Please describe your surgeries"></textarea>
+                    </div>
+
+                    <!-- Allergies -->
+                    <div class="form-group">
+                        <label>Do you have any allergies?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="hasAllergies" value="Yes" onchange="toggleAllergyDetails(true)">
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="hasAllergies" value="No" onchange="toggleAllergyDetails(false)">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="allergyDetails" style="display: none;">
+                        <label for="allergySpecification">If Yes, please specify:</label>
+                        <textarea id="allergySpecification" name="allergySpecification" rows="3" placeholder="Please describe your allergies"></textarea>
+                    </div>
+
+                    <!-- Medications -->
+                    <div class="form-group">
+                        <label>Are you currently taking any medications?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="hasMedications" value="Yes" onchange="toggleMedicationDetails(true)">
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="hasMedications" value="No" onchange="toggleMedicationDetails(false)">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="medicationDetails" style="display: none;">
+                        <label>If Yes, please specify:</label>
+                        <div id="medicationList">
+                            <div class="medication-row">
+                                <div class="form-group">
+                                    <label>Name of Medication</label>
+                                    <input type="text" name="medicationName[]" placeholder="Medication name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Dosage</label>
+                                    <input type="text" name="medicationDosage[]" placeholder="Dosage">
+                                </div>
+                                <div class="form-group">
+                                    <label>Reason for Use</label>
+                                    <input type="text" name="medicationReason[]" placeholder="Reason">
+                                </div>
+                                <button type="button" onclick="removeMedication(this)" style="display: none;">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-medication-btn" onclick="addMedication()">Add Another Medication</button>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(5)">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextForm(5)">Next</button>
+                    </div>
+                </div>
+
+                <!-- 6. Lifestyle Information Form -->
+                <div class="form-container" id="lifestyleForm">
+                    <h2 class="form-title">Lifestyle Information</h2>
+
+                    <!-- Smoking -->
+                    <div class="form-group">
+                        <label>Do you smoke?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="smokes" value="Yes" onchange="toggleSmokingFrequency(true)">
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="smokes" value="No" onchange="toggleSmokingFrequency(false)">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="smokingFrequency" style="display: none;">
+                        <label for="smokingFrequencyInput">If Yes, specify frequency:</label>
+                        <input type="text" id="smokingFrequencyInput" name="smokingFrequencyInput" placeholder="e.g., 1 pack per day, occasionally">
+                    </div>
+
+                    <!-- Alcohol -->
+                    <div class="form-group">
+                        <label>Do you drink alcohol?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="drinksAlcohol" value="Yes" onchange="toggleAlcoholFrequency(true)">
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="drinksAlcohol" value="No" onchange="toggleAlcoholFrequency(false)">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="alcoholFrequency" style="display: none;">
+                        <label for="alcoholFrequencyInput">If Yes, specify frequency:</label>
+                        <input type="text" id="alcoholFrequencyInput" name="alcoholFrequencyInput" placeholder="e.g., socially, daily, weekly">
+                    </div>
+
+                    <!-- Exercise -->
+                    <div class="form-group">
+                        <label for="exerciseFrequency">Exercise Frequency (Per week)</label>
+                        <select id="exerciseFrequency" name="exerciseFrequency">
+                            <option value="">Select Exercise Level</option>
+                            <option value="Sedentary (Rarely or never exercises)">Sedentary (Rarely or never exercises)</option>
+                            <option value="Light Activity (Exercises occasionally, like walking or stretching)">Light Activity (Exercises occasionally, like walking or stretching)</option>
+                            <option value="Moderate Activity (Exercises a few times a week, including brisk walking or light workouts)">Moderate Activity (Exercises a few times a week, including brisk walking or light workouts)</option>
+                            <option value="Active (Exercises regularly, most days of the week)">Active (Exercises regularly, most days of the week)</option>
+                            <option value="Very Active (Intense exercise almost daily, such as training or sports)">Very Active (Intense exercise almost daily, such as training or sports)</option>
+                        </select>
+                    </div>
+
+                    <!-- Diet -->
+                    <div class="form-group">
+                        <label for="dietType">Type of Diet</label>
+                        <select id="dietType" name="dietType" onchange="toggleOtherDiet()">
+                            <option value="">Select Diet Type</option>
+                            <option value="Balanced">Balanced</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Vegan">Vegan</option>
+                            <option value="High-Carb">High-Carb</option>
+                            <option value="High-Protein">High-Protein</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="otherDietDetails" style="display: none;">
+                        <label for="otherDietSpecification">Please specify other diet type:</label>
+                        <input type="text" id="otherDietSpecification" name="otherDietSpecification" placeholder="Specify your diet type">
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(6)">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextForm(6)">Next</button>
+                    </div>
+                </div>
+
+                <!-- 7. Vaccination History Form -->
+                <div class="form-container" id="vaccinationForm">
+                    <h2 class="form-title">Vaccination History</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientIdNo">Patient ID No.</label>
+                            <input type="text" id="patientIdNo" name="patientIdNo" placeholder="Patient ID Number">
+                        </div>
+                        <div class="form-group">
+                            <label for="vaccineType">Vaccine Type</label>
+                            <input type="text" id="vaccineType" name="vaccineType" placeholder="e.g., COVID-19, Influenza">
+                        </div>
+                        <div class="form-group">
+                            <label for="nextDose">Next Dose (If applicable)</label>
+                            <input type="text" id="nextDose" name="nextDose" placeholder="Next dose information">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vaccineName">Vaccine Name</label>
+                            <input type="text" id="vaccineName" name="vaccineName" placeholder="e.g., Pfizer, Moderna">
+                        </div>
+                        <div class="form-group">
+                            <label for="vaccineDate">Date Given</label>
+                            <input type="date" id="vaccineDate" name="vaccineDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="administeredBy">Administered By</label>
+                            <input type="text" id="administeredBy" name="administeredBy" placeholder="Healthcare provider name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vaccineRemarks">Remarks/Notes</label>
+                        <textarea id="vaccineRemarks" name="vaccineRemarks" rows="3" placeholder="Additional information about the vaccination"></textarea>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(7)">Previous</button>
+                        <button type="button" class="btn btn-submit" onclick="submitForm()">Submit Registration</button>
+                    </div>
+                </div>
+
+                <!-- 8. Receipt/Review Form -->
+                <div class="form-container" id="receiptForm" style="display: none;">
+                    <h2 class="form-title">Review Your Information</h2>
+                    <div class="receipt-section">
+                        <h3>Personal Information</h3>
+                        <p><strong>First Name:</strong> <span id="receiptFirstName"></span></p>
+                        <p><strong>Middle Name:</strong> <span id="receiptMiddleName"></span></p>
+                        <p><strong>Last Name:</strong> <span id="receiptLastName"></span></p>
+                        <p><strong>Address:</strong> <span id="receiptAddress"></span></p>
+                        <p><strong>Mobile Number:</strong> <span id="receiptMobileNumber"></span></p>
+                        <p><strong>Birthday:</strong> <span id="receiptBirthday"></span></p>
+                        <p><strong>Gender:</strong> <span id="receiptGender"></span></p>
+                        <p><strong>Email Address:</strong> <span id="receiptEmail"></span></p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h3>Basic Health Information</h3>
+                        <p><strong>Blood Type:</strong> <span id="receiptBloodType"></span></p>
+                        <p><strong>Height:</strong> <span id="receiptHeight"></span> <span id="receiptHeightUnit"></span></p>
+                        <p><strong>Weight:</strong> <span id="receiptWeight"></span> <span id="receiptWeightUnit"></span></p>
+                        <p><strong>Disabilities/Impairments:</strong> <span id="receiptDisabilities"></span></p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h3>Emergency Contact</h3>
+                        <p><strong>Emergency Contact Name:</strong> <span id="receiptEmergencyContactName"></span></p>
+                        <p><strong>Mobile Phone Number:</strong> <span id="receiptEmergencyContactNumber"></span></p>
+                        <p><strong>Relationship:</strong> <span id="receiptEmergencyRelationship"></span></p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h3>Past Medical Conditions</h3>
+                        <p><strong>Conditions:</strong> <span id="receiptMedicalConditions"></span></p>
+                        <p id="receiptOtherConditionDetailsParent" style="display: none;"><strong>Other Details:</strong> <span id="receiptOtherConditionDetails"></span></p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h3>Other Health Details</h3>
+                        <p><strong>Surgeries:</strong> <span id="receiptHasSurgeries"></span></p>
+                        <p id="receiptSurgeryDetailsParent" style="display: none;"><strong>Details:</strong> <span id="receiptSurgerySpecification"></span></p>
+                        <p><strong>Allergies:</strong> <span id="receiptHasAllergies"></span></p>
+                        <p id="receiptAllergyDetailsParent" style="display: none;"><strong>Details:</strong> <span id="receiptAllergySpecification"></span></p>
+                        <p><strong>Medications:</strong> <span id="receiptHasMedications"></span></p>
+                        <div id="receiptMedicationList">
+                            <!-- Medication items will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h3>Lifestyle Information</h3>
+                        <p><strong>Smokes:</strong> <span id="receiptSmokes"></span></p>
+                        <p id="receiptSmokingFrequencyParent" style="display: none;"><strong>Frequency:</strong> <span id="receiptSmokingFrequencyInput"></span></p>
+                        <p><strong>Drinks Alcohol:</strong> <span id="receiptDrinksAlcohol"></span></p>
+                        <p id="receiptAlcoholFrequencyParent" style="display: none;"><strong>Frequency:</strong> <span id="receiptAlcoholFrequencyInput"></span></p>
+                        <p><strong>Exercise Frequency:</strong> <span id="receiptExerciseFrequency"></span></p>
+                        <p><strong>Diet Type:</strong> <span id="receiptDietType"></span></p>
+                        <p id="receiptOtherDietDetailsParent" style="display: none;"><strong>Other Diet:</strong> <span id="receiptOtherDietSpecification"></span></p>
+                    </div>
+
+                    <div class="receipt-section">
+                        <h3>Vaccination History</h3>
+                        <p><strong>Patient ID No.:</strong> <span id="receiptPatientIdNo"></span></p>
+                        <p><strong>Vaccine Type:</strong> <span id="receiptVaccineType"></span></p>
+                        <p><strong>Next Dose:</strong> <span id="receiptNextDose"></span></p>
+                        <p><strong>Vaccine Name:</strong> <span id="receiptVaccineName"></span></p>
+                        <p><strong>Date Given:</strong> <span id="receiptVaccineDate"></span></p>
+                        <p><strong>Administered By:</strong> <span id="receiptAdministeredBy"></span></p>
+                        <p><strong>Remarks/Notes:</strong> <span id="receiptVaccineRemarks"></span></p>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" onclick="prevForm(8)">Previous</button>
+                        <button type="button" class="btn btn-submit" id="confirmAndFinishBtn" onclick="confirmAndFinish()">Confirm and Finish</button>
+                    </div>
+                </div>
+
+                <!-- Final Thank You Message -->
+                <div class="thank-you-container" id="thankYouMessage">
+                    <h2>Thank You!</h2>
+                    <p>Your registration has been submitted. Please set up your password to complete the process.</p>
+                    <p><strong>Patient ID:</strong> <span id="patientId">SCH-REG-2025-XXXX</span></p>
+                    <button type="button" class="btn btn-next" onclick="showPasswordSetup()">Set Up Password</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Password Setup Modal -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-modal-content">
+            <h2>Set Up Your Password</h2>
+            <p>Please create a secure password for your account. You'll use this with your email to log in.</p>
+            
+            <div class="form-group">
+                <label for="newPassword">Password</label>
+                <input type="password" id="newPassword" placeholder="Enter your password" oninput="checkPasswordStrength()">
+                <div class="password-strength" id="passwordStrength"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password">
+            </div>
+
+            <button type="button" class="btn btn-submit" style="width: 100%; margin-top: 20px;" onclick="savePassword()">Complete Registration</button>
+        </div>
+    </div>
+
+ <script>
+    // Import UserManager from index.html
+    class UserManager {
+      constructor() {
+        this.currentUser = null;
+        this.loadCurrentUser();
+      }
+
+      // Save user data to localStorage
+      saveUser(userData) {
+        try {
+          const users = this.getAllUsers();
+          const existingUserIndex = users.findIndex(user => user.email === userData.email);
+          
+          if (existingUserIndex !== -1) {
+            // Update existing user
+            users[existingUserIndex] = { ...users[existingUserIndex], ...userData };
+          } else {
+            // Add new user
+            users.push(userData);
+          }
+          
+          localStorage.setItem('hospitalUsers', JSON.stringify(users));
+          return true;
+        } catch (error) {
+          console.error('Error saving user:', error);
+          return false;
+        }
+      }
+
+      // Get all users from localStorage
+      getAllUsers() {
+        try {
+          const users = localStorage.getItem('hospitalUsers');
+          return users ? JSON.parse(users) : [];
+        } catch (error) {
+          console.error('Error loading users:', error);
+          return [];
+        }
+      }
+
+      // Find user by email
+      findUserByEmail(email) {
+        const users = this.getAllUsers();
+        return users.find(user => user.email === email);
+      }
+
+      // Check if email already exists
+      emailExists(email) {
+        return this.findUserByEmail(email) !== undefined;
+      }
+
+      // Update user password
+      updatePassword(email, newPassword) {
+        const users = this.getAllUsers();
+        const userIndex = users.findIndex(user => user.email === email);
+        
+        if (userIndex !== -1) {
+          users[userIndex].password = newPassword;
+          users[userIndex].hasCompletedRegistration = true;
+          localStorage.setItem('hospitalUsers', JSON.stringify(users));
+          return true;
+        }
+        return false;
+      }
+
+      // Set current logged-in user
+      setCurrentUser(user) {
+        this.currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      }
+
+      // Load current user from localStorage
+      loadCurrentUser() {
+        try {
+          const currentUser = localStorage.getItem('currentUser');
+          this.currentUser = currentUser ? JSON.parse(currentUser) : null;
+        } catch (error) {
+          console.error('Error loading current user:', error);
+          this.currentUser = null;
+        }
+      }
+    }
+
+    // Initialize user manager
+    const userManager = new UserManager();
+
+    // Current form step
+    let currentStep = 1;
+    const totalSteps = 8; // Max step for progress bar
+    let medicationCount = 1;
+    
+    // Form IDs
+    const formIds = [
+        'personalInfoForm',
+        'healthInfoForm',
+        'emergencyContactForm',
+        'medicalConditionsForm',
+        'healthDetailsForm',
+        'lifestyleForm',
+        'vaccinationForm',
+        'receiptForm', // This is now considered part of the "Complete" step (step 8)
+        'thankYouMessage' // The final message, shown after receipt
+    ];
+
+    // Store collected data
+    const formData = {};
+
+    // New function for auto-resizing textareas
+    function autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto'; // Reset height to recalculate
+        textarea.style.height = textarea.scrollHeight + 'px'; // Set height to scroll height
+    }
+
+    // Update progress bar
+    function updateProgress(step) {
+        const progressPercentage = (step / totalSteps) * 100;
+        document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+
+        // Update step indicators
+        for (let i = 1; i <= totalSteps; i++) {
+            const stepElement = document.getElementById(`step${i}`);
+            if (i < step) {
+                stepElement.classList.remove('active');
+                stepElement.classList.add('completed');
+            } else if (i === step) {
+                stepElement.classList.add('active');
+                stepElement.classList.remove('completed');
+            } else {
+                stepElement.classList.remove('active', 'completed');
+            }
+        }
+    }
+
+    // Hide all forms
+    function hideAllForms() {
+        formIds.forEach(id => {
+            const form = document.getElementById(id);
+            if (form) {
+                form.style.display = 'none';
+            }
+        });
+    }
+
+    // Validate current form
+    function validateForm(step) {
+        let isValid = true;
+        let currentFormElement = document.getElementById(formIds[step - 1]);
+        const requiredInputs = currentFormElement.querySelectorAll('[required]');
+
+        requiredInputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.style.borderColor = '#dc3545'; // Highlight empty required fields
+            } else {
+                input.style.borderColor = '#ddd'; // Reset border color
+            }
+        });
+
+        // Email validation for step 1
+        if (step === 1) {
+            const email = document.getElementById('email').value.trim();
+            const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+            
+            if (email && !emailPattern.test(email)) {
+                isValid = false;
+                document.getElementById('email').style.borderColor = '#dc3545';
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            // Check if email already exists
+            if (email && userManager.emailExists(email)) {
+                isValid = false;
+                document.getElementById('email').style.borderColor = '#dc3545';
+                alert('An account with this email already exists. Please use a different email or log in.');
+                return false;
+            }
+        }
+
+        // Special validation for radio groups
+        if (step === 5) { // Health Details form
+            const hasSurgeriesRadios = document.querySelectorAll('input[name="hasSurgeries"]');
+            const hasAllergiesRadios = document.querySelectorAll('input[name="hasAllergies"]');
+            const hasMedicationsRadios = document.querySelectorAll('input[name="hasMedications"]');
+
+            if (!Array.from(hasSurgeriesRadios).some(radio => radio.checked)) {
+                isValid = false;
+                alert('Please select whether you have had any surgeries.');
+            }
+            if (!Array.from(hasAllergiesRadios).some(radio => radio.checked)) {
+                isValid = false;
+                alert('Please select whether you have any allergies.');
+            }
+            if (!Array.from(hasMedicationsRadios).some(radio => radio.checked)) {
+                isValid = false;
+                alert('Please select whether you are taking any medications.');
+            }
+        }
+        if (step === 6) { // Lifestyle form
+            const smokesRadios = document.querySelectorAll('input[name="smokes"]');
+            const drinksAlcoholRadios = document.querySelectorAll('input[name="drinksAlcohol"]');
+            if (!Array.from(smokesRadios).some(radio => radio.checked)) {
+                isValid = false;
+                alert('Please select whether you smoke.');
+            }
+            if (!Array.from(drinksAlcoholRadios).some(radio => radio.checked)) {
+                isValid = false;
+                alert('Please select whether you drink alcohol.');
+            }
+        }
+
+        if (!isValid) {
+            console.error(`Validation failed for step ${step}. Please fill in all required fields.`);
+        }
+        return isValid;
+    }
+
+    // Save data for current step
+    function saveFormData(step) {
+        const currentFormElement = document.getElementById(formIds[step - 1]);
+        const inputs = currentFormElement.querySelectorAll('input, select, textarea');
+
+        inputs.forEach(input => {
+            let value;
+            if (input.type === 'checkbox') {
+                if (!formData[input.name]) {
+                    formData[input.name] = [];
+                }
+                if (input.checked) {
+                    formData[input.name].push(input.value);
+                }
+            } else if (input.type === 'radio') {
+                if (input.checked) {
+                    formData[input.name] = input.value;
+                }
+            } else {
+                value = input.value;
+                if (input.name) { // Ensure input has a name to store
+                    formData[input.name] = value;
+                }
+            }
+        });
+
+        // Handle specific complex fields like medication list
+        if (step === 5) { // Health Details form
+            const medicationRows = document.querySelectorAll('#medicationList .medication-row');
+            const medications = [];
+            medicationRows.forEach(row => {
+                const name = row.querySelector('[name="medicationName[]"]').value;
+                const dosage = row.querySelector('[name="medicationDosage[]"]').value;
+                const reason = row.querySelector('[name="medicationReason[]"]').value;
+                if (name || dosage || reason) {
+                    medications.push({ name, dosage, reason });
+                }
+            });
+            formData.medications = medications;
+        }
+    }
+
+    // Navigate to the next form
+    function nextForm(step) {
+        if (!validateForm(step)) {
+            return; // Stop if validation fails
+        }
+
+        saveFormData(step); // Save data for the current step
+
+        hideAllForms(); // Hide current form
+
+        currentStep = step + 1;
+        if (currentStep <= totalSteps) {
+            document.getElementById(formIds[currentStep - 1]).style.display = 'block';
+            updateProgress(currentStep);
+        }
+    }
+
+    // Navigate to the previous form
+    function prevForm(step) {
+        hideAllForms(); // Hide current form
+
+        currentStep = step - 1;
+        if (currentStep >= 1) {
+            document.getElementById(formIds[currentStep - 1]).style.display = 'block';
+            updateProgress(currentStep);
+        }
+    }
+
+    // Submit registration (now prepares and shows receipt)
+    function submitForm() {
+        if (!validateForm(currentStep)) {
+            return;
+        }
+
+        saveFormData(currentStep); // Save data for the last form
+
+        hideAllForms();
+        document.getElementById('receiptForm').style.display = 'block';
+        updateProgress(totalSteps); // Ensure progress bar is at "Complete"
+        populateReceipt(); // Populate the receipt form with collected data
+    }
+
+    // Populate the receipt form with collected data
+    function populateReceipt() {
+        // Personal Information
+        document.getElementById('receiptFirstName').textContent = formData.firstName || 'N/A';
+        document.getElementById('receiptMiddleName').textContent = formData.middleName || 'N/A';
+        document.getElementById('receiptLastName').textContent = formData.lastName || 'N/A';
+        document.getElementById('receiptAddress').textContent = formData.address || 'N/A';
+        document.getElementById('receiptMobileNumber').textContent = formData.mobileNumber || 'N/A';
+        document.getElementById('receiptBirthday').textContent = formData.birthday || 'N/A';
+        document.getElementById('receiptGender').textContent = formData.gender || 'N/A';
+        document.getElementById('receiptEmail').textContent = formData.email || 'N/A';
+
+        // Basic Health Information
+        document.getElementById('receiptBloodType').textContent = formData.bloodType || 'N/A';
+        document.getElementById('receiptHeight').textContent = formData.height || 'N/A';
+        document.getElementById('receiptHeightUnit').textContent = formData.heightUnit || '';
+        document.getElementById('receiptWeight').textContent = formData.weight || 'N/A';
+        document.getElementById('receiptWeightUnit').textContent = formData.weightUnit || '';
+        document.getElementById('receiptDisabilities').textContent = formData.disabilities || 'None';
+
+        // Emergency Contact
+        document.getElementById('receiptEmergencyContactName').textContent = formData.emergencyContactName || 'N/A';
+        document.getElementById('receiptEmergencyContactNumber').textContent = formData.emergencyContactNumber || 'N/A';
+        document.getElementById('receiptEmergencyRelationship').textContent = formData.emergencyRelationship || 'N/A';
+
+        // Past Medical Conditions
+        const medicalConditions = formData.medicalConditions ? formData.medicalConditions.join(', ') : 'None';
+        document.getElementById('receiptMedicalConditions').textContent = medicalConditions;
+        const otherConditionDetails = formData.otherConditionDetails || 'N/A';
+        document.getElementById('receiptOtherConditionDetails').textContent = otherConditionDetails;
+        document.getElementById('receiptOtherConditionDetailsParent').style.display = formData.medicalConditions && formData.medicalConditions.includes('Other') && otherConditionDetails !== 'N/A' ? 'block' : 'none';
+
+        // Other Health Details
+        document.getElementById('receiptHasSurgeries').textContent = formData.hasSurgeries || 'No';
+        const surgerySpecification = formData.surgerySpecification || 'N/A';
+        document.getElementById('receiptSurgerySpecification').textContent = surgerySpecification;
+        document.getElementById('receiptSurgeryDetailsParent').style.display = formData.hasSurgeries === 'Yes' && surgerySpecification !== 'N/A' ? 'block' : 'none';
+
+        document.getElementById('receiptHasAllergies').textContent = formData.hasAllergies || 'No';
+        const allergySpecification = formData.allergySpecification || 'N/A';
+        document.getElementById('receiptAllergySpecification').textContent = allergySpecification;
+        document.getElementById('receiptAllergyDetailsParent').style.display = formData.hasAllergies === 'Yes' && allergySpecification !== 'N/A' ? 'block' : 'none';
+
+        document.getElementById('receiptHasMedications').textContent = formData.hasMedications || 'No';
+        const receiptMedicationListDiv = document.getElementById('receiptMedicationList');
+        receiptMedicationListDiv.innerHTML = ''; // Clear previous entries
+
+        if (formData.hasMedications === 'Yes' && formData.medications && formData.medications.length > 0) {
+            formData.medications.forEach(med => {
+                if (med.name || med.dosage || med.reason) { // Only add if there's actual data
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'receipt-medication-item';
+                    itemDiv.innerHTML = `
+                        <p><strong>Medication:</strong> ${med.name ||'N/A'}</p>
+                        <p><strong>Dosage:</strong> ${med.dosage || 'N/A'}</p>
+                        <p><strong>Reason:</strong> ${med.reason || 'N/A'}</p>
+                    `;
+                    receiptMedicationListDiv.appendChild(itemDiv);
+                }
+            });
+            receiptMedicationListDiv.style.display = 'block';
+        } else {
+            receiptMedicationListDiv.style.display = 'none';
+        }
+
+        // Lifestyle Information
+        document.getElementById('receiptSmokes').textContent = formData.smokes || 'No';
+        const smokingFrequencyInput = formData.smokingFrequencyInput || 'N/A';
+        document.getElementById('receiptSmokingFrequencyInput').textContent = smokingFrequencyInput;
+        document.getElementById('receiptSmokingFrequencyParent').style.display = formData.smokes === 'Yes' && smokingFrequencyInput !== 'N/A' ? 'block' : 'none';
+
+        document.getElementById('receiptDrinksAlcohol').textContent = formData.drinksAlcohol || 'No';
+        const alcoholFrequencyInput = formData.alcoholFrequencyInput || 'N/A';
+        document.getElementById('receiptAlcoholFrequencyInput').textContent = alcoholFrequencyInput;
+        document.getElementById('receiptAlcoholFrequencyParent').style.display = formData.drinksAlcohol === 'Yes' && alcoholFrequencyInput !== 'N/A' ? 'block' : 'none';
+
+        document.getElementById('receiptExerciseFrequency').textContent = formData.exerciseFrequency || 'N/A';
+        document.getElementById('receiptDietType').textContent = formData.dietType || 'N/A';
+        const otherDietSpecification = formData.otherDietSpecification || 'N/A';
+        document.getElementById('receiptOtherDietSpecification').textContent = otherDietSpecification;
+        document.getElementById('receiptOtherDietDetailsParent').style.display = formData.dietType === 'Others' && otherDietSpecification !== 'N/A' ? 'block' : 'none';
+
+        // Vaccination History
+        document.getElementById('receiptPatientIdNo').textContent = formData.patientIdNo || 'N/A';
+        document.getElementById('receiptVaccineType').textContent = formData.vaccineType || 'N/A';
+        document.getElementById('receiptNextDose').textContent = formData.nextDose || 'N/A';
+        document.getElementById('receiptVaccineName').textContent = formData.vaccineName || 'N/A';
+        document.getElementById('receiptVaccineDate').textContent = formData.vaccineDate || 'N/A';
+        document.getElementById('receiptAdministeredBy').textContent = formData.administeredBy || 'N/A';
+        document.getElementById('receiptVaccineRemarks').textContent = formData.vaccineRemarks || 'N/A';
+    }
+
+    // Confirms the receipt and shows the final thank you message
+    function confirmAndFinish() {
+        // Save basic user data to localStorage first (without password)
+        saveUserToLocalStorage();
+        
+        hideAllForms();
+        document.getElementById('thankYouMessage').style.display = 'block';
+        // Generate a simple patient ID (for demonstration purposes)
+        document.getElementById('patientId').textContent = 'SCH-REG-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+        updateProgress(totalSteps); // Keep progress at "Complete"
+    }
+
+    // Save user data to localStorage (initial save without password)
+    function saveUserToLocalStorage() {
+        try {
+            // Create a comprehensive patient data object
+            const userData = {
+                // Personal Information
+                firstName: formData.firstName || '',
+                middleName: formData.middleName || '',
+                lastName: formData.lastName || '',
+                fullName: `${formData.firstName || ''} ${formData.middleName || ''} ${formData.lastName || ''}`.trim(),
+                address: formData.address || '',
+                mobileNumber: formData.mobileNumber || '',
+                birthday: formData.birthday || '',
+                gender: formData.gender || '',
+                email: formData.email || '',
+                
+                // Health Information
+                bloodType: formData.bloodType || '',
+                height: formData.height || '',
+                heightUnit: formData.heightUnit || '',
+                weight: formData.weight || '',
+                weightUnit: formData.weightUnit || '',
+                disabilities: formData.disabilities || '',
+                
+                // Emergency Contact
+                emergencyContactName: formData.emergencyContactName || '',
+                emergencyContactNumber: formData.emergencyContactNumber || '',
+                emergencyRelationship: formData.emergencyRelationship || '',
+                
+                // Medical Conditions
+                medicalConditions: formData.medicalConditions || [],
+                otherConditionDetails: formData.otherConditionDetails || '',
+                
+                // Health Details
+                hasSurgeries: formData.hasSurgeries || 'No',
+                surgerySpecification: formData.surgerySpecification || '',
+                hasAllergies: formData.hasAllergies || 'No',
+                allergySpecification: formData.allergySpecification || '',
+                hasMedications: formData.hasMedications || 'No',
+                medications: formData.medications || [],
+                
+                // Lifestyle
+                smokes: formData.smokes || 'No',
+                smokingFrequencyInput: formData.smokingFrequencyInput || '',
+                drinksAlcohol: formData.drinksAlcohol || 'No',
+                alcoholFrequencyInput: formData.alcoholFrequencyInput || '',
+                exerciseFrequency: formData.exerciseFrequency || '',
+                dietType: formData.dietType || '',
+                otherDietSpecification: formData.otherDietSpecification || '',
+                
+                // Vaccination
+                patientIdNo: formData.patientIdNo || '',
+                vaccineType: formData.vaccineType || '',
+                nextDose: formData.nextDose || '',
+                vaccineName: formData.vaccineName || '',
+                vaccineDate: formData.vaccineDate || '',
+                administeredBy: formData.administeredBy || '',
+                vaccineRemarks: formData.vaccineRemarks || '',
+                
+                // Metadata
+                registrationDate: new Date().toISOString(),
+                patientId: 'SCH-REG-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000),
+                hasCompletedRegistration: false // Will be set to true after password setup
+            };
+            
+            // Save to localStorage using UserManager
+            userManager.saveUser(userData);
+            console.log('User data saved to localStorage successfully');
+        } catch (error) {
+            console.error('Error saving user data to localStorage:', error);
+        }
+    }
+
+    // Show password setup modal
+    function showPasswordSetup() {
+        document.getElementById('passwordModal').classList.add('active');
+    }
+
+    // Check password strength
+    function checkPasswordStrength() {
+        const password = document.getElementById('newPassword').value;
+        const strengthElement = document.getElementById('passwordStrength');
+        
+        let strength = 0;
+        let feedback = '';
+        
+        if (password.length >= 8) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        
+        switch (strength) {
+            case 0:
+            case 1:
+            case 2:
+                feedback = 'Weak password';
+                strengthElement.className = 'password-strength strength-weak';
+                break;
+            case 3:
+            case 4:
+                feedback = 'Medium strength password';
+                strengthElement.className = 'password-strength strength-medium';
+                break;
+            case 5:
+                feedback = 'Strong password';
+                strengthElement.className = 'password-strength strength-strong';
+                break;
+        }
+        
+        strengthElement.textContent = feedback;
+    }
+
+    // Save password and complete registration
+    function savePassword() {
+        const password = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (!password) {
+            alert('Please enter a password.');
+            return;
+        }
+        
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters long.');
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            alert('Passwords do not match.');
+            return;
+        }
+        
+        // Update user with password
+        if (userManager.updatePassword(formData.email, password)) {
+            alert('Registration completed successfully! You can now log in with your email and password.');
+            window.location.href = 'index.html';
+        } else {
+            alert('Error completing registration. Please try again.');
+        }
+    }
+
+    // Helper functions for conditional display
+    function toggleSurgeryDetails(show) {
+        document.getElementById('surgeryDetails').style.display = show ? 'block' : 'none';
+        document.getElementById('surgerySpecification').required = show; // Make required if visible
+    }
+
+    function toggleAllergyDetails(show) {
+        document.getElementById('allergyDetails').style.display = show ? 'block' : 'none';
+        document.getElementById('allergySpecification').required = show; // Make required if visible
+    }
+
+    function toggleMedicationDetails(show) {
+        document.getElementById('medicationDetails').style.display = show ? 'block' : 'none';
+        // Make medication inputs required if visible and there's at least one row
+        const medicationInputs = document.querySelectorAll('#medicationList input');
+        medicationInputs.forEach(input => {
+            input.required = show;
+        });
+
+        // Hide/show remove buttons on first medication row if there's only one
+        const removeButtons = document.querySelectorAll('.medication-row button');
+        if (removeButtons.length === 1) {
+            removeButtons[0].style.display = show ? 'none' : 'none'; // Initially hidden
+        }
+    }
+
+    function toggleSmokingFrequency(show) {
+        document.getElementById('smokingFrequency').style.display = show ? 'block' : 'none';
+        document.getElementById('smokingFrequencyInput').required = show;
+    }
+
+    function toggleAlcoholFrequency(show) {
+        document.getElementById('alcoholFrequency').style.display = show ? 'block' : 'none';
+        document.getElementById('alcoholFrequencyInput').required = show;
+    }
+
+    function toggleOtherDiet() {
+        const dietType = document.getElementById('dietType').value;
+        const otherDietDetails = document.getElementById('otherDietDetails');
+        const otherDietSpecification = document.getElementById('otherDietSpecification');
+
+        if (dietType === 'Others') {
+            otherDietDetails.style.display = 'block';
+            otherDietSpecification.required = true;
+        } else {
+            otherDietDetails.style.display = 'none';
+            otherDietSpecification.required = false;
+            otherDietSpecification.value = ''; // Clear value if hidden
+        }
+    }
+
+    // Add medication row
+    function addMedication() {
+        const medicationList = document.getElementById('medicationList');
+        const newRow = document.createElement('div');
+        newRow.className = 'medication-row';
+        newRow.innerHTML = `
+            <div class="form-group">
+                <label>Name of Medication</label>
+                <input type="text" name="medicationName[]" placeholder="Medication name" required>
+            </div>
+            <div class="form-group">
+                <label>Dosage</label>
+                <input type="text" name="medicationDosage[]" placeholder="Dosage" required>
+            </div>
+            <div class="form-group">
+                <label>Reason for Use</label>
+                <input type="text" name="medicationReason[]" placeholder="Reason" required>
+            </div>
+            <button type="button" onclick="removeMedication(this)">Remove</button>
+        `;
+        medicationList.appendChild(newRow);
+
+        // Show remove buttons for all rows if more than one
+        const removeButtons = medicationList.querySelectorAll('.medication-row button');
+        removeButtons.forEach(btn => btn.style.display = 'block');
+    }
+
+    // Remove medication row
+    function removeMedication(button) {
+        const medicationList = document.getElementById('medicationList');
+        const rowToRemove = button.closest('.medication-row');
+        medicationList.removeChild(rowToRemove);
+
+        // If only one row remains, hide its remove button
+        const remainingRows = medicationList.querySelectorAll('.medication-row');
+        if (remainingRows.length === 1) {
+            remainingRows[0].querySelector('button').style.display = 'none';
+        }
+    }
+
+    // Initial calls to hide/show details based on default radio selection (if any)
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-resize for 'disabilities' textarea
+        const disabilitiesTextarea = document.getElementById('disabilities');
+        if (disabilitiesTextarea) {
+            disabilitiesTextarea.addEventListener('input', () => autoResizeTextarea(disabilitiesTextarea));
+            autoResizeTextarea(disabilitiesTextarea); // Initial resize in case of pre-filled content
+        }
+
+        // Auto-resize for 'notes' textarea (already present in your HTML)
+        const notesTextarea = document.getElementById('notes');
+        if (notesTextarea) {
+            notesTextarea.addEventListener('input', () => autoResizeTextarea(notesTextarea));
+            autoResizeTextarea(notesTextarea); // Initial resize in case of pre-filled content
+        }
+
+        // Set initial state for medication remove button
+        const initialMedicationRemoveBtn = document.querySelector('#medicationList .medication-row button');
+        if (initialMedicationRemoveBtn) {
+            initialMedicationRemoveBtn.style.display = 'none';
+        }
+        toggleOtherDiet(); // Set initial state for other diet field
+        toggleSurgeryDetails(false); // Default to no for surgeries
+        toggleAllergyDetails(false); // Default to no for allergies
+        toggleMedicationDetails(false); // Default to no for medications
+        toggleSmokingFrequency(false); // Default to no for smoking
+        toggleAlcoholFrequency(false); // Default to no for alcohol
+    });
+</script>
+
+</body>
+</html>

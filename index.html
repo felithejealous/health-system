@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+  <title>Healthcare Services</title>
+  <script src="transition.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      min-height: 100vh;
+      background-color: #D7EEDE;
+    }
+
+    /* ===== NAVBAR STYLES ===== */
+    .navbar-container {
+      background-color: white;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navbar-container header {
+      height: 90px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hospital-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 60px;
+      overflow: hidden;
+    }
+
+    .logo-container img {
+      max-height: 79px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .hospital-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0B6A27;
+      text-align: left;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hospital-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      color: #333333;
+      padding: 8px 16px;
+      border-radius: 10px;
+      transition: 0.3s ease-in-out;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: rgba(11, 106, 39, 0.2);
+    }
+
+    nav a:active,
+    nav a.active {
+      background-color: #0B6A27;
+      color: white;
+    }
+    /* ===== END NAVBAR STYLES ===== */
+
+    /* Main content container optimized for all screens */
+    .main-container {
+      max-width: 100%;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    /* Photo Background Container */
+    .photo-background-container {
+      background-color: #D7EEDE;
+      width: 100%;
+      padding: 0;
+      margin: 0px 0 0 0;
+    }
+
+    .background-container {
+      position: relative;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      width: 100%;
+      height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Blur effect only on background image */
+    .background-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: inherit;
+      background-size: inherit;
+      background-position: inherit;
+      background-repeat: inherit;
+      filter: blur(2px);
+      z-index: 1;
+    }
+
+    /* Gradient overlay */
+    .background-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(247, 237, 237, 0.685);
+      z-index: 2;
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .title {
+      font-family: 'Poppins', sans-serif;
+      color: #000000;
+      font-weight: 900;
+      font-size: 50px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      color: #000000;
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      max-width: 950px;
+      margin-left: auto;
+      margin-right: auto;
+      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+    }
+
+    .action-buttons {
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .action-buttons button {
+      padding: 12px 25px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      height: 45px;
+      width: 350px;
+      max-width: 60%;
+      font-size: 18px;
+      position: relative;
+      z-index: 15;
+    }
+
+    .book-btn {
+      background-color: #0B6A27;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .book-btn:hover {
+      background-color: #0a5a23;
+    }
+
+    /* Wellness section */
+    .wellness-section {
+      background-color: #D7EEDE;
+      padding: 60px 40px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Title container with left alignment */
+    .wellness-title-container {
+      display: flex;
+      width: 100%;
+      max-width: 1600px;
+      margin: 0 auto 0 auto;
+    }
+
+    .wellness-title-left {
+      flex: 1;
+    }
+
+    .wellness-title-right {
+      flex: 1;
+    }
+
+    .wellness-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 50px;
+      font-weight: 900;
+      line-height: 1.2;
+      text-align: left;
+      margin-left: 20px;
+    }
+
+    .wellness-title-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    .harbor-text {
+      color: #000000;
+    }
+
+    .wellness-text {
+      color: #666666;
+    }
+
+    /* Description container with left alignment */
+    .wellness-description-container {
+      display: flex;
+      width: 100%;
+      max-width: 1600px;
+      margin: 0 auto 40px auto;
+    }
+
+    .wellness-description-left {
+      flex: 1;
+    }
+
+    .wellness-description-right {
+      flex: 0.4;
+    }
+
+    .wellness-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 100;
+      color: #352F36;
+      line-height: 1.6;
+      text-align: left;
+      margin-left: 20px;
+      margin-top: 20px;
+    }
+
+    /* Updated feature boxes */
+    .features-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      max-width: 100%;
+      margin: 0 auto 90px auto;
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+
+    .feature-box {
+      border-radius: 20px;
+      width: 420px;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 30px;
+      position: relative;
+      cursor: pointer;
+       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-box:hover {
+       transform: translateY(-8px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-box:nth-child(1) {
+      background: #A9C99C;
+    }
+
+    .feature-box:nth-child(2) {
+      background: #C0E2DC;
+    }
+
+    .feature-box:nth-child(3) {
+      background: #B4D28A;
+    }
+
+    .feature-icon-container {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+    }
+
+    .feature-title {
+      font-family: 'inter', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #000000;
+      max-width: 250px;
+      text-align: left;
+      align-self: flex-start;
+      margin-top: auto;
+    }
+   
+    .appointment-section {
+      background-color: #D7EEDE;
+      padding: 10px 10px 10px 1cqw;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Title container with left alignment */
+    .appointment-title-container {
+      display: flex;
+      width: 100%;
+      max-width: 1600px;
+      margin-bottom: 20px;
+      margin: 0 auto 0 auto;
+    }
+ 
+    .appointment-title-left {
+      flex: 1;
+    }
+
+    .appointment-title-right {
+      flex: 0;
+    }
+
+    .appointment-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 50px;
+      font-weight: 900;
+      line-height: 0;
+      text-align: left;
+      margin-left: 20px;
+    }
+
+    .an-title-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    .appointment-text {
+      color: #000000;
+    }
+
+    .an-text {
+      color: #666666;
+    }
+
+    /* ===== DIVIDER CONTAINER ===== */
+    .divider-container {
+      background-color: #0C634E;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 100;
+    }
+
+    .divider-container .divider {
+      background-color: #0C634E;
+      width: 100%;
+      height: 80px;
+      margin: 0 auto;
+    }
+    
+    .divider {
+      background-color: #0C634E;
+      width: 100%;
+      height: 80px;
+      margin-bottom: 20px;
+      margin-top: 0px;
+    }
+    /* ===== END DIVIDER CONTAINER ===== */
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background-color: white;
+      border: 2px solid #888;
+      border-radius: 12px;
+      width: 220px;
+      padding-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 240px;
+      background-color: #ddd;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .card-body {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .card-body h4 {
+      margin: 10px 0 4px;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .card-body p {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .card-info {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #444;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .card-info span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-info span i {
+      font-size: 14px;
+      position: relative;
+      top: -2px;
+      margin-right: 4px;
+    }
+
+    .icon {
+      font-style: normal;
+    }
+
+    .star {
+      color: gold;
+    }
+
+    /* ===== FOOTER CONTAINER ===== */
+    .footer-container-wrapper {
+      background-color: #0C634E;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 100;
+    }
+
+    .footer-container-wrapper footer {
+      background-color: #0C634E;
+      color: white;
+      padding: 60px 40px 30px 40px;
+      width: 100%;
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .footer-logo-container {
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px;
+      height: auto;
+      z-index: 10;
+    }
+
+    .footer-logo-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 100px;
+      max-width: 100%;
+      margin: 0 auto;
+      padding-left: 180px;
+    }
+
+    .footer-item {
+      flex: 1;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .footer-item p {
+      margin: 8px 0;
+    }
+
+    .bold {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .copyright {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 14px;
+      padding-left: 180px;
+    }
+    /* ===== END FOOTER CONTAINER ===== */
+
+    /* LOGIN OVERLAY STYLES */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+
+    .login-overlay.active {
+      display: flex;
+    }
+
+    .login-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 30px auto;
+      border: 5px solid #000000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+      z-index: 10001;
+    }
+
+    .close-btn:hover {
+      color: #0B6A27;
+    }
+
+    .left-box {
+      flex: 1;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .left-box h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .left-box p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .left-box p.description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      gap: 12px;
+    }
+
+    .access-btn {
+      background-color: #0B6A27;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1;
+      cursor: pointer;
+      width: 90%;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    
+    .login-btn {
+      background-color: #0B6A27;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .access-btn:hover {
+      background-color: #09541e;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .remember-forgot label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .google-btn {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 14px;
+    }
+
+    .google-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .signup-text {
+      font-size: 16px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .signup-text a {
+      color: #0B6A27;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .login-footer {
+      font-size: 14px;
+      margin-top: 40px;
+      color: #888;
+      text-align: center;
+    }
+
+    .right-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      margin: 20px;
+    }
+
+    .right-box img {
+      width: 95%;
+      height: 95%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .row .form-group {
+      flex: 1;
+    }
+
+    .terms {
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0.1;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      filter: blur(1px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .fade-in-delay-1 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-3 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-4 {
+      transition-delay: 0.2s;
+    }
+
+    
+    /* ===== MEDIA QUERIES ===== */
+    /* For screens 1600px and larger */
+    @media (min-width: 1600px) {
+      .title {
+        font-size: 60px;
+      }
+      
+      .subtitle {
+        font-size: 24px;
+        max-width: 1100px;
+      }
+      
+      .wellness-title {
+        font-size: 60px;
+      }
+      
+      .wellness-description {
+        font-size: 24px;
+      }
+      
+      .feature-box {
+        width: 480px;
+        height: 450px;
+      }
+      
+      .feature-icon-container {
+        width: 220px;
+        height: 220px;
+      }
+      
+      .feature-title {
+        font-size: 28px;
+      }
+      
+      .card {
+        width: 240px;
+      }
+      
+      .card-image {
+        height: 260px;
+      }
+    }
+
+    /* For screens between 1366px and 1599px */
+    @media (max-width: 1599px) and (min-width: 1367px) {
+      .navbar-container header {
+        padding: 0 30px;
+      }
+      
+      nav {
+        gap: 15px;
+      }
+      
+      nav a {
+        font-size: 15px;
+        padding: 7px 14px;
+      }
+
+      .wellness-section {
+        padding: 50px 30px;
+      }
+
+      .features-container {
+        gap: 25px;
+        padding: 0 20px;
+      }
+
+      .feature-box {
+        width: 380px;
+        height: 380px;
+      }
+
+      .title {
+        font-size: 48px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .divider-container .divider {
+        height: 70px;
+      }
+
+      .footer-container-wrapper footer {
+        padding: 40px 30px 20px 30px;
+      }
+    }
+
+    /* For screens up to 1366px */
+    @media (max-width: 1366px) {
+      .navbar-container header {
+        padding: 0 20px;
+      }
+      
+      nav {
+        gap: 10px;
+      }
+      
+      nav a {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+
+      .wellness-section {
+        padding: 40px 20px;
+      }
+
+      .features-container {
+        gap: 20px;
+        padding: 0 15px;
+      }
+
+      .feature-box {
+        width: 350px;
+        height: 350px;
+      }
+
+      .title {
+        font-size: 42px;
+      }
+
+      .subtitle {
+        font-size: 17px;
+      }
+
+      .divider-container .divider {
+        height: 70px;
+      }
+
+      .footer-container-wrapper footer {
+        padding: 30px 15px 15px 15px;
+      }
+    }
+
+    /* For screens up to 1024px */
+    @media (max-width: 1024px) {
+      .features-container {
+        gap: 20px;
+      }
+
+      .feature-box {
+        width: 300px;
+        height: 320px;
+      }
+
+      .feature-icon-container {
+        width: 150px;
+        height: 150px;
+      }
+
+      .feature-title {
+        font-size: 20px;
+      }
+
+      .wellness-title {
+        font-size: 40px;
+      }
+
+      .wellness-description {
+        font-size: 18px;
+      }
+
+      .divider-container .divider {
+        height: 60px;
+      }
+
+      .footer-container {
+        gap: 40px;
+        padding-left: 100px;
+      }
+
+      .copyright {
+        padding-left: 100px;
+      }
+    }
+
+    /* For screens up to 768px */
+    @media (max-width: 768px) {
+      .navbar-container header {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 90px;
+      }
+
+      .hospital-container {
+        flex-wrap: wrap;
+      }
+
+      .hospital-name {
+        font-size: 18px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      nav a {
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+        padding: 0 10px;
+      }
+
+      .background-container {
+        height: 450px;
+      }
+      
+      .features-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 0 20px;
+      }
+      
+      .feature-box {
+        width: 100%;
+        max-width: 350px;
+        height: 300px;
+        padding: 20px;
+      }
+
+      .feature-icon-container {
+        width: 120px;
+        height: 120px;
+      }
+
+      .feature-title {
+        font-size: 18px;
+        line-height: 22px;
+      }
+
+      .wellness-section {
+        padding: 30px 15px;
+      }
+
+      .wellness-title {
+        font-size: 28px;
+        margin-left: 0;
+      }
+
+      .wellness-description {
+        font-size: 16px;
+        margin-left: 0;
+      }
+
+      .wellness-title-container,
+      .wellness-description-container {
+        flex-direction: column;
+      }
+
+      .divider-container .divider {
+        height: 50px;
+      }
+
+      .footer-container-wrapper footer {
+        padding: 30px 15px 15px 15px;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        padding-left: 20px;
+        gap: 20px;
+      }
+
+      .footer-logo-container {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
+        width: 80px;
+      }
+
+      .copyright {
+        padding-left: 20px;
+      }
+
+      .login-container {
+        max-width: 95%;
+        margin: 10px;
+        flex-direction: column;
+      }
+
+      .right-box {
+        margin: 10px;
+        height: 200px;
+      }
+
+      .row {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+
+    /* For screens up to 480px */
+    @media (max-width: 480px) {
+      .navbar-container header {
+        padding: 0 10px;
+      }
+
+      .hospital-name {
+        font-size: 16px;
+      }
+
+      .title {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+
+      .feature-box {
+        height: 280px;
+        padding: 15px;
+      }
+
+      .feature-icon-container {
+        width: 100px;
+        height: 100px;
+      }
+
+      .feature-title {
+        font-size: 16px;
+      }
+
+      .wellness-title {
+        font-size: 24px;
+      }
+
+      .wellness-description {
+        font-size: 14px;
+      }
+
+      .action-buttons button {
+        width: 90%;
+        font-size: 16px;
+      }
+
+      .divider-container .divider {
+        height: 40px;
+      }
+
+      .footer-container-wrapper footer {
+        padding: 20px 10px 10px 10px;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        padding-left: 20px;
+        gap: 20px;
+      }
+
+      .footer-logo-container {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
+        width: 80px;
+      }
+
+      .copyright {
+        padding-left: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <div class="navbar-container">
+    <header>
+      <div class="hospital-container">
+        <div class="logo-container">
+          <img src="logoright.jpg" alt="Logo Right" />
+        </div>
+        <div class="logo-container">
+          <img src="logoleft.jpg" alt="Logo Left" />
+        </div>
+        <div class="hospital-name">
+          <p class="hospital-line">Sebaste Community</p>
+          <p class="hospital-line">Hospital</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="DOCTOR.html">Find Doctors</a>
+        <a href="services.html">Our Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="FAQs.html">FAQs</a>
+      </nav>
+    </header>
+  </div>
+  <!-- ===== END NAVBAR ===== -->
+
+  <!-- Main Content Container -->
+  <div class="main-container">
+    <!-- Photo Background Container -->
+    <div class="photo-background-container">
+      <div class="background-container">
+        <div class="main-content fade-in">
+          <h1 class="title">YOUR HEALTH, CONNECTED.</h1>
+          <p class="subtitle">A SEAMLESS SYSTEM FOR MANAGING CARE, RECORDS, AND RESULTS ALL IN ONE PLACE.</p>
+
+          <div class="action-buttons">
+            <button class="book-btn" onclick="openLoginOverlay()">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DIVIDER ===== -->
+    <div class="divider"></div>
+    
+    <!-- ===== END DIVIDER ===== -->
+
+    <!-- Wellness Section -->
+    <div class="wellness-section">
+      <!-- Title Container with left alignment -->
+      <div class="wellness-title-container fade-in fade-in-delay-1">
+        <div class="wellness-title-left">
+          <h2 class="wellness-title">
+            <p class="wellness-title-line harbor-text">THE HARBOR OF</p>
+            <p class="wellness-title-line wellness-text">WELLNESS AND CARE</p>
+          </h2>
+        </div>
+        <div class="wellness-title-right"></div>
+      </div>
+
+      <!-- Description Container with left alignment -->
+      <div class="wellness-description-container fade-in fade-in-delay-2">
+        <div class="wellness-description-left">
+          <p class="wellness-description">
+            Experience a new era of healthcare where innovative meets empathy designed to support your journey with trusted technology, expert insight, and personalized attention at every touchpoint.
+          </p>
+        </div>
+        <div class="wellness-description-right"></div>
+      </div>
+
+      <div class="features-container">
+        <div class="feature-box fade-in fade-in-delay-1" onclick="handleFeatureClick('health-records')">
+          <div class="feature-icon-container">
+            <svg width="120" height="203" viewBox="0 0 203 203" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.5" d="M0.25 50.3687C0.25 41.4284 0.249999 36.9632 0.958749 33.2372C2.46964 25.2369 6.35676 17.8776 12.113 12.1196C17.8692 6.36158 25.2272 2.47215 33.2271 0.958749C36.9632 0.249999 41.4385 0.25 50.3687 0.25C54.277 0.25 56.2413 0.25 58.1245 0.422125C66.2351 1.18383 73.9275 4.3737 80.197 9.57513C81.655 10.78 83.032 12.157 85.8062 14.9313L91.375 20.5C99.637 28.762 103.768 32.893 108.709 35.6369C111.425 37.1505 114.306 38.3464 117.295 39.2009C122.742 40.75 128.584 40.75 140.259 40.75H144.045C170.694 40.75 184.029 40.75 192.686 48.5462C193.489 49.255 194.245 50.011 194.954 50.8142C202.75 59.4711 202.75 72.8058 202.75 99.4548V121.75C202.75 159.931 202.75 179.027 190.883 190.883C179.017 202.74 159.931 202.75 121.75 202.75H81.25C43.0686 202.75 23.9729 202.75 12.1165 190.883C0.260124 179.017 0.25 159.931 0.25 121.75V50.3687Z" fill="#517B71"/>
+              <path d="M182.5 43.1598C182.5 40.1425 182.45 38.3504 182.247 36.781C181.373 30.1526 178.336 23.998 173.607 19.2713C168.879 14.5447 162.723 11.5101 156.094 10.6383C154.12 10.375 151.771 10.375 147.063 10.375H81.1289C82.3034 11.428 83.6298 12.7443 85.8067 14.9313L91.3754 20.5C99.6374 28.762 103.768 32.893 108.709 35.6369C111.428 37.1512 114.313 38.3471 117.306 39.2009C122.743 40.75 128.585 40.75 140.269 40.75H144.046C162.068 40.75 173.985 40.75 182.5 43.1598Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M104.031 81.25C104.031 79.236 104.831 77.3045 106.255 75.8804C107.68 74.4563 109.611 73.6562 111.625 73.6562H162.25C164.264 73.6562 166.195 74.4563 167.62 75.8804C169.044 77.3045 169.844 79.236 169.844 81.25C169.844 83.264 169.044 85.1955 167.62 86.6196C166.195 88.0437 164.264 88.8438 162.25 88.8438H111.625C109.611 88.8438 107.68 88.0437 106.255 86.6196C104.831 85.1955 104.031 83.264 104.031 81.25Z" fill="#FFFDFD"/>
+            </svg>
+          </div>
+          <div class="feature-title">Track Health Records</div>
+        </div>
+        <div class="feature-box fade-in fade-in-delay-2" onclick="handleFeatureClick('appointment')">
+          <div class="feature-icon-container">
+            <svg width="120" height="214" viewBox="0 0 192 214" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.3333 213.666C15.4667 213.666 10.4462 211.579 6.272 207.405C2.09778 203.231 0.00711111 198.207 0 192.333V42.9997C0 37.133 2.09067 32.1126 6.272 27.9384C10.4533 23.7642 15.4738 21.6735 21.3333 21.6664H32V10.9997C32 7.97749 33.024 5.44593 35.072 3.40505C37.12 1.36416 39.6516 0.340156 42.6667 0.333045C45.6818 0.325933 48.2169 1.34993 50.272 3.40505C52.3271 5.46016 53.3476 7.99171 53.3333 10.9997V21.6664H138.667V10.9997C138.667 7.97749 139.691 5.44593 141.739 3.40505C143.787 1.36416 146.318 0.340156 149.333 0.333045C152.348 0.325933 154.884 1.34993 156.939 3.40505C158.994 5.46016 160.014 7.99171 160 10.9997V21.6664H170.667C176.533 21.6664 181.557 23.757 185.739 27.9384C189.92 32.1197 192.007 37.1402 192 42.9997V192.333C192 198.2 189.913 203.224 185.739 207.405C181.564 211.586 176.54 213.673 170.667 213.666H21.3333ZM21.3333 192.333H170.667V85.6664H21.3333V192.333ZM96 128.333C92.9778 128.333 90.4462 127.309 88.4053 125.261C86.3644 123.213 85.3404 120.681 85.3333 117.666C85.3262 114.651 86.3502 112.12 88.4053 110.072C90.4604 108.024 92.992 107 96 107C99.008 107 101.543 108.024 103.605 110.072C105.668 112.12 106.688 114.651 106.667 117.666C106.645 120.681 105.621 123.217 103.595 125.272C101.568 127.327 99.0364 128.347 96 128.333ZM53.3333 128.333C50.3111 128.333 47.7796 127.309 45.7387 125.261C43.6978 123.213 42.6738 120.681 42.6667 117.666C42.6596 114.651 43.6836 112.12 45.7387 110.072C47.7938 108.024 50.3253 107 53.3333 107C56.3413 107 58.8764 108.024 60.9387 110.072C63.0009 112.12 64.0213 114.651 64 117.666C63.9787 120.681 62.9547 123.217 60.928 125.272C58.9013 127.327 56.3698 128.347 53.3333 128.333ZM138.667 128.333C135.644 128.333 133.113 127.309 131.072 125.261C129.031 123.213 128.007 120.681 128 117.666C127.993 114.651 129.017 112.12 131.072 110.072C133.127 108.024 135.659 107 138.667 107C141.675 107 144.21 108.024 146.272 110.072C148.334 112.12 149.355 114.651 149.333 117.666C149.312 120.681 148.288 123.217 146.261 125.272C144.235 127.327 141.703 128.347 138.667 128.333ZM96 171C92.9778 171 90.4462 169.976 88.4053 167.928C86.3644 165.88 85.3404 163.348 85.3333 160.333C85.3262 157.318 86.3502 154.786 88.4053 152.738C90.4604 150.69 92.992 149.666 96 149.666C99.008 149.666 101.543 150.69 103.605 152.738C105.668 154.786 106.688 157.318 106.667 160.333C106.645 163.348 105.621 165.883 103.595 167.938C101.568 169.993 99.0364 171.014 96 171ZM53.3333 171C50.3111 171 47.7796 169.976 45.7387 167.928C43.6978 165.88 42.6738 163.348 42.6667 160.333C42.6596 157.318 43.6836 154.786 45.7387 152.738C47.7938 150.69 50.3253 149.666 53.3333 149.666C56.3413 149.666 58.8764 150.69 60.9387 152.738C63.0009 154.786 64.0213 157.318 64 160.333C63.9787 163.348 62.9547 165.883 60.928 167.938C58.9013 169.993 56.3698 171.014 53.3333 171ZM138.667 171C135.644 171 133.113 169.976 131.072 167.928C129.031 165.88 128.007 163.348 128 160.333C127.993 157.318 129.017 154.786 131.072 152.738C133.127 150.69 135.659 149.666 138.667 149.666C141.675 149.666 144.21 150.90 146.272 152.738C148.334 154.786 149.355 157.318 149.333 160.333C149.312 163.348 148.288 165.883 146.261 167.938C144.235 169.993 141.703 171.014 138.667 171Z" fill="#67847F"/>
+            </svg>
+          </div>
+          <div class="feature-title">Schedule an Appointment</div>
+        </div>
+        <div class="feature-box fade-in fade-in-delay-3" onclick="handleFeatureClick('find-doctors')">
+          <div class="feature-icon-container">
+            <svg width="120" height="217" viewBox="0 0 173 217" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M117.208 154.536C149.861 160.713 173 176.536 173 195.067V216.741H0V195.067C0 176.536 23.1387 160.713 55.7925 154.536L86.5 205.904L117.208 154.536ZM43.25 65.0224H129.75V86.6965C129.75 98.1931 125.193 109.219 117.082 117.348C108.971 125.478 97.9706 130.045 86.5 130.045C75.0294 130.045 64.0286 125.478 55.9176 117.348C47.8067 109.219 43.25 98.1931 43.25 86.6965V65.0224ZM43.25 54.1853L47.6831 9.75347C47.9521 7.07105 49.2089 4.58542 51.2083 2.78193C53.2076 0.978451 55.8058 -0.0133739 58.4956 0.000136225H114.613C120.127 0.000136225 124.776 4.22658 125.317 9.75347L129.75 54.1853H43.25ZM86.5 10.8372H75.6875V21.6742H64.875V32.5113H75.6875V43.3483H86.5V32.5113H97.3125V21.6742H86.5V10.8372Z" fill="#E4E9DC"/>
+            </svg>
+          </div>
+          <div class="feature-title">Find Doctors</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer-container-wrapper">
+    <footer class="fade-in fade-in-delay-4">
+      <div class="footer-logo-container">
+        <img src="footer.jpg" alt="Footer Logo" />
+      </div>
+      <div class="footer-container">
+        <div class="footer-item">
+          <p class="bold">Contact Us</p>
+          <p class="bold">Sebaste Community Hospital</p>
+          <p>Address: Azucena Extension Poblacion Sebaste, Antique, Sebaste, Philippines</p>
+          <p>Phone: +63 945 136 7487</p>
+        </div>
+        <div class="footer-item">
+          <p class="bold">Sebaste Rural Health Unit</p>
+          <p>Address: H3QV+4R6, Iloilo-Antique Rd, Sebaste, Antique</p>
+          <p>Phone: (036) 278 2077</p>
+        </div>
+      </div>
+      <p class="copyright">Copyright © Municipality of Sebaste 2025 - All Rights Reserved</p>
+    </footer>
+  </div>
+  <!-- ===== END FOOTER ===== -->
+
+  <!-- LOGIN OVERLAY SYSTEM -->
+  <!-- Access Selection Overlay -->
+  <div id="accessSelectionOverlay" class="login-overlay">
+    <div class="login-container">
+      <button class="close-btn" onclick="closeLoginOverlay()">&times;</button>
+      <div class="left-box">
+        <h2>Access Selection</h2>
+        <p>To proceed, kindly select the appropriate portal.</p>
+        <p><strong>Choose CLIENT</strong> if you are seeking access to your personal health records.</p>
+        <p><strong>Choose EMPLOYEE</strong> if you are authorized personnel of Sebaste Community Hospital</p>
+
+        <div class="button-group">
+          <button class="access-btn" onclick="showClientLogin()">Client</button>
+          <button class="access-btn" onclick="showEmployeeLogin()">Employee</button>
+        </div>
+
+        <div class="login-footer">Copyright © Municipality of Sebaste 2025 – All Rights Reserved</div>
+      </div>
+
+      <div class="right-box">
+        <img src="bg.jpg" alt="Sebaste Community Hospital" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Login Overlay -->
+  <div id="clientLoginOverlay" class="login-overlay">
+    <div class="login-container">
+      <button class="close-btn" onclick="closeLoginOverlay()">&times;</button>
+      <div class="left-box">
+        <div>
+          <h2>Welcome Back!</h2>
+          <p class="description">Access your health profile – your gateway to seamless care at Sebaste Community Hospital.</p>
+
+          <div class="form-group">
+            <label for="client-email">Email</label>
+            <input type="email" id="client-email" placeholder="Enter your email" />
+            <div class="error-message" id="email-error">Please enter a valid email address.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="client-password">Password</label>
+            <input type="password" id="client-password" placeholder="Enter your password" />
+            <div class="error-message" id="password-error">Password is required.</div>
+          </div>
+
+          <div class="remember-forgot">
+            <label><input type="checkbox" /> Remember Me</label>
+            <a href="#" style="color: #0B6A27; font-weight: 600;">Forgot Password?</a>
+          </div>
+
+          <button class="login-btn" style="width: 100%;" onclick="validateLogin()">Log in</button>
+
+          <div class="signup-text">
+            Don't have an account? <a onclick="window.location.href='regtry.html'">Sign Up</a>
+          </div>
+        </div>
+
+        <div class="login-footer">Copyright © Municipality of Sebaste 2025 – All Rights Reserved</div>
+      </div>
+
+      <div class="right-box">
+        <img src=bg.jpg alt="Sebaste Community Hospital" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Employee Login Overlay -->
+  <div id="employeeLoginOverlay" class="login-overlay">
+    <div class="login-container">
+      <button class="close-btn" onclick="closeLoginOverlay()">&times;</button>
+      <div class="left-box">
+        <div>
+          <h2>Employee Access</h2>
+          <p class="description">Authorized personnel login for Sebaste Community Hospital staff members.</p>
+
+          <div class="form-group">
+            <label for="employee-id">Employee ID</label>
+            <input type="text" id="employee-id" placeholder="Enter your employee ID" />
+          </div>
+
+          <div class="form-group">
+            <label for="employee-password">Password</label>
+            <input type="password" id="employee-password" placeholder="Enter your password" />
+          </div>
+
+          <div class="remember-forgot">
+            <label><input type="checkbox" /> Remember Me</label>
+            <a href="#" style="color: #0B6A27; font-weight: 600;">Forgot Password?</a>
+          </div>
+          <button class="access-btn" style="width: 100%;" onclick="adminLogin()">Log in</button>
+        </div>
+
+        <div class="login-footer">Copyright © Municipality of Sebaste 2025 – All Rights Reserved</div>
+      </div>
+
+      <div class="right-box">
+        <img src="bg.jpg" alt="Sebaste Community Hospital" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // User Management System using localStorage
+    class UserManager {
+      constructor() {
+        this.currentUser = null;
+        this.loadCurrentUser();
+      }
+
+      // Save user data to localStorage
+      saveUser(userData) {
+        try {
+          const users = this.getAllUsers();
+          const existingUserIndex = users.findIndex(user => user.email === userData.email);
+          
+          if (existingUserIndex !== -1) {
+            // Update existing user
+            users[existingUserIndex] = { ...users[existingUserIndex], ...userData };
+          } else {
+            // Add new user
+            users.push(userData);
+          }
+          
+          localStorage.setItem('hospitalUsers', JSON.stringify(users));
+          return true;
+        } catch (error) {
+          console.error('Error saving user:', error);
+          return false;
+        }
+      }
+
+      // Get all users from localStorage
+      getAllUsers() {
+        try {
+          const users = localStorage.getItem('hospitalUsers');
+          return users ? JSON.parse(users) : [];
+        } catch (error) {
+          console.error('Error loading users:', error);
+          return [];
+        }
+      }
+
+      // Find user by email
+      findUserByEmail(email) {
+        const users = this.getAllUsers();
+        return users.find(user => user.email === email);
+      }
+
+      // Validate login credentials
+      validateCredentials(email, password) {
+        const user = this.findUserByEmail(email);
+        if (user && user.password === password) {
+          this.setCurrentUser(user);
+          return true;
+        }
+        return false;
+      }
+
+      // Set current logged-in user
+      setCurrentUser(user) {
+        this.currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      }
+
+      // Load current user from localStorage
+      loadCurrentUser() {
+        try {
+          const currentUser = localStorage.getItem('currentUser');
+          this.currentUser = currentUser ? JSON.parse(currentUser) : null;
+        } catch (error) {
+          console.error('Error loading current user:', error);
+          this.currentUser = null;
+        }
+      }
+
+      // Get current user
+      getCurrentUser() {
+        return this.currentUser;
+      }
+
+      // Logout user
+      logout() {
+        this.currentUser = null;
+        localStorage.removeItem('currentUser');
+      }
+
+      // Check if user has completed registration
+      hasCompletedRegistration(email) {
+        const user = this.findUserByEmail(email);
+        return user && user.hasCompletedRegistration;
+      }
+
+      // Update user password
+      updatePassword(email, newPassword) {
+        const users = this.getAllUsers();
+        const userIndex = users.findIndex(user => user.email === email);
+        
+        if (userIndex !== -1) {
+          users[userIndex].password = newPassword;
+          users[userIndex].hasCompletedRegistration = true;
+          localStorage.setItem('hospitalUsers', JSON.stringify(users));
+          return true;
+        }
+        return false;
+      }
+    }
+
+    // Initialize user manager
+    const userManager = new UserManager();
+
+    // Login validation function
+    function validateLogin() {
+      const email = document.getElementById("client-email").value.trim();
+      const password = document.getElementById("client-password").value;
+      
+      // Clear previous error messages
+      document.getElementById("email-error").style.display = "none";
+      document.getElementById("password-error").style.display = "none";
+
+      let hasErrors = false;
+
+      // Validate email format
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailPattern.test(email)) {
+        document.getElementById("email-error").style.display = "block";
+        hasErrors = true;
+      }
+
+      // Validate password
+      if (!password) {
+        document.getElementById("password-error").style.display = "block";
+        hasErrors = true;
+      }
+
+      if (hasErrors) {
+        return;
+      }
+
+      // Check if user exists and credentials are correct
+      if (userManager.validateCredentials(email, password)) {
+        // Check if user has completed registration
+        if (userManager.hasCompletedRegistration(email)) {
+          window.location.href = 'dash.html';
+        } else {
+          alert('Please complete your registration first.');
+          window.location.href = 'regtry.html';
+        }
+      } else {
+        // Check if user exists but password is wrong
+        const user = userManager.findUserByEmail(email);
+        if (user) {
+          alert('Invalid password. Please try again.');
+        } else {
+          alert('No account found with this email. Please sign up first.');
+        }
+      }
+    }
+
+    // Elegant fade-in animation on scroll
+    function handleScrollAnimations() {
+      const elements = document.querySelectorAll('.fade-in');
+      
+      elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('visible');
+        }
+      });
+    }
+
+    // Initialize animations on page load
+    window.addEventListener('load', () => {
+      setTimeout(handleScrollAnimations, 100);
+    });
+
+    // Handle scroll animations
+    window.addEventListener('scroll', handleScrollAnimations);
+
+    // Handle resize for responsive behavior
+    window.addEventListener('resize', handleScrollAnimations);
+
+    // JavaScript functions for overlay management
+    function openLoginOverlay() {
+      document.getElementById('accessSelectionOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLoginOverlay() {
+      // Hide all overlays
+      document.getElementById('accessSelectionOverlay').classList.remove('active');
+      document.getElementById('clientLoginOverlay').classList.remove('active');
+      document.getElementById('employeeLoginOverlay').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function showClientLogin() {
+      document.getElementById('accessSelectionOverlay').classList.remove('active');
+      document.getElementById('clientLoginOverlay').classList.add('active');
+    }
+
+    function showEmployeeLogin() {
+      document.getElementById('accessSelectionOverlay').classList.remove('active');
+      document.getElementById('employeeLoginOverlay').classList.add('active');
+    }
+
+    // Admin login function with password check
+    function adminLogin() {
+      const employeeId = document.getElementById('employee-id').value;
+      const password = document.getElementById('employee-password').value;
+      
+      // Simple password check (in real app, this would be server-side)
+      if (employeeId === 'admin' && password === 'admin123') {
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        alert('Invalid credentials. Please try again.');
+      }
+    }
+
+    // Feature box click handler
+    function handleFeatureClick(feature) {
+      if (feature === 'find-doctors') {
+        // Direct redirect to DOCTOR.html for Find Doctors
+        window.location.href = 'DOCTOR.html';
+      } else {
+        // Show login overlay for Track Health Records and Schedule Appointment
+        openLoginOverlay();
+      }
+    }
+
+    // Close overlay when clicking outside the login container
+    document.addEventListener('click', function(event) {
+      const overlays = document.querySelectorAll('.login-overlay');
+      overlays.forEach(overlay => {
+        if (event.target === overlay) {
+          closeLoginOverlay();
+        }
+      });
+    });
+
+    // Close overlay with Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeLoginOverlay();
+      }
+    });
+
+    // Check if user is already logged in on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentUser = userManager.getCurrentUser();
+      if (currentUser) {
+        // User is already logged in, could redirect to dashboard
+        console.log('User already logged in:', currentUser.email);
+      }
+    });
+  </script>
+
+</body>
+</html>

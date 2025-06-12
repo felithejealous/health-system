@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Doctors - Sebaste Community Hospital</title>
+  <link rel="stylesheet" href="used.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #D7EEDE;
+      color: #333;
+    }
+
+    /* ===== IDENTICAL NAVBAR STYLES FOR ALL PAGES ===== */
+    .navbar-container {
+      background-color: white;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navbar-container header {
+      height: 90px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hospital-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 60px;
+      overflow: hidden;
+    }
+
+    .logo-container img {
+      max-height: 79px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .hospital-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0B6A27;
+      text-align: left;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hospital-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      color: #333333;
+      padding: 8px 16px;
+      border-radius: 10px;
+      transition: 0.3s ease-in-out;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: rgba(11, 106, 39, 0.2);
+    }
+
+    nav a:active,
+    nav a.active {
+      background-color: #0B6A27;
+      color: white;
+    }
+    /* ===== END NAVBAR STYLES ===== */
+
+    /* Hero Section - Consistent with index.html */
+    .photo-background-container {
+      background-color: #D7EEDE;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .background-container {
+      position: relative;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 580px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .background-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: inherit;
+      background-size: inherit;
+      background-position: inherit;
+      background-repeat: inherit;
+      filter: blur(2px);
+      z-index: 1;
+    }
+
+    .background-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(247, 237, 237, 0.685);
+      z-index: 2;
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+  .title {
+  font-family: 'Poppins', sans-serif;
+  color: #000000;
+  font-weight: 900;
+  font-size: 50px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.title.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+    .divider {
+      background-color: #0C634E;
+      width: 100%;
+      height: 80px;
+      margin-bottom: 20px;
+      margin-top: 0px;
+    }
+
+    /* Main Content */
+    .content {
+      max-width: 100%;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      font-size: 20px;
+      background-color: #D7EEDE;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section p {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+
+    /* Updated Filter Section - Smaller and Transparent */
+    .filter-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2rem 0;
+      padding: 0.75rem 1rem;
+      background-color: transparent;
+      border-radius: 8px;
+    }
+
+    .filter-section label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .filter-section select {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #888;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      background-color: transparent;
+      color: #333;
+      cursor: pointer;
+      min-width: 200px;
+    }
+
+    .filter-section select:focus {
+      outline: none;
+      border-color: #666;
+      box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+    }
+
+    /* Cards with Updated Color */
+    .card {
+      background-color: #5D988A;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 29px;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      color: #352F36;
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .check-doctors-button {
+      display: inline-block;
+      margin-top: -1rem;
+      padding: 0.75rem 1.5rem;
+      margin-left: -20px;
+      background-color: #5D988A;
+      color: #352F36;
+      text-decoration: none;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      font-size: medium;
+      cursor: pointer;
+    }
+
+    .check-doctors-button:hover {
+      background-color: #f0f0f025;
+      transform: translateX(5px);
+    }
+
+    /* Footer - Consistent with index.html */
+    footer {
+      background-color: #0C634E;
+      color: white;
+      padding: 40px 20px 20px 20px;
+      width: 100%;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .footer-logo-container {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px;
+      height: auto;
+      z-index: 10;
+    }
+
+    .footer-logo-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-left: 140px;
+    }
+
+    .footer-item {
+      flex: 1;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .footer-item p {
+      margin: 4px 0;
+    }
+
+    .bold {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .copyright {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 11px;
+      padding-left: 140px;
+    }
+
+    /* Hidden class for filtering */
+    .hidden {
+      display: none !important;
+    }
+
+    /* ===== ELEGANT FADE-IN ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0.2;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      filter: blur(1px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .fade-in-delay-1 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-3 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-4 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-5 {
+      transition-delay: 0.2s;
+    }
+
+    /* Enhanced shadows for polished look */
+    .card {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1366px) {
+      .navbar-container header {
+        padding: 0 20px;
+      }
+      
+      nav {
+        gap: 10px;
+      }
+      
+      nav a {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-container header {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 90px;
+      }
+
+      .hospital-container {
+        flex-wrap: wrap;
+      }
+
+      .hospital-name {
+        font-size: 18px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      nav a {
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+
+      .filter-section {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .filter-section select {
+        min-width: 100%;
+      }
+
+      .content {
+        padding: 0 1rem;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+
+      .background-container {
+        height: 450px;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        padding-left: 20px;
+        gap: 20px;
+      }
+
+      .footer-logo-container {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
+        width: 80px;
+      }
+
+      .copyright {
+        padding-left: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-container header {
+        padding: 0 10px;
+      }
+
+      .hospital-name {
+        font-size: 16px;
+      }
+
+      .title {
+        font-size: 28px;
+      }
+
+      .content {
+        font-size: 18px;
+      }
+
+      .filter-section label {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== IDENTICAL NAVBAR CONTAINER ===== -->
+  <div class="navbar-container">
+    <header>
+      <div class="hospital-container">
+        <div class="logo-container">
+          <img src="logoright.jpg" alt="Logo Right" />
+        </div>
+        <div class="logo-container">
+          <img src="logoleft.jpg" alt="Logo Left" />
+        </div>
+        <div class="hospital-name">
+          <p class="hospital-line">Sebaste Community</p>
+          <p class="hospital-line">Hospital</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="DOCTOR.html" class="active">Find Doctors</a>
+        <a href="services.html">Our Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="FAQs.html">FAQs</a>
+      </nav>
+    </header>
+  </div>
+  <!-- ===== END NAVBAR ===== -->
+
+  <!-- Hero Section -->
+  <div class="photo-background-container">
+    <div class="background-container">
+      <div class="main-content">
+        <h1 class="title">OUR DOCTORS</h1>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="section fade-in">
+      <p><strong>At Sebaste Community Hospital, our compassionate healthcare team is wholeheartedly committed to safeguarding your well-being and providing exceptional medical care to every member of our community.</strong></p>
+      <p>We take pride in delivering personalized, patient-centered services through our dedicated team of skilled physicians and specialists. Each doctor brings unique expertise, warm bedside manner, and deep commitment to serving the people of Sebaste. Whether you need routine check-ups, specialized diagnostics, maternal care, or dental services, our healthcare professionals are here to support your journey to better health with professionalism, empathy, and the highest standards of medical excellence.</p>
+      <p><strong>Our doctors don't just treat conditions — they care for people.</strong> From the friendly, comprehensive care of our general practitioners to the specialized attention of our OB-GYN, radiologists, pathologists and dentists, every member of our medical staff is devoted to ensuring you receive the right treatment, the right way, with dignity and respect.</p>
+      <p>We understand that quality healthcare is built on trust, which is why our physicians take time to listen, explain, and develop treatment plans tailored to your unique needs. Their extensive training combined with genuine compassion makes Sebaste Community Hospital a place where patients feel valued and cared for at every visit.</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section fade-in fade-in-delay-1">
+      <label for="specialization">All Specialization</label>
+      <select id="specialization" onchange="filterSpecializations()">
+        <option value="all">All Specialization</option>
+        <option value="general">General Medicine</option>
+        <option value="obgyn">OB-GYN Specialists</option>
+        <option value="pathologist">Pathologist</option>
+        <option value="radiologist">Radiologist</option>
+        <option value="dentist">Dentist</option>
+      </select>
+    </div>
+
+    <!-- Doctor Cards -->
+    <div class="section card fade-in fade-in-delay-1" data-specialization="general">
+      <h3>General Medicine</h3>
+      <p>Doctors diagnose and treat common illnesses and chronic diseases like diabetes. They also provide preventive checkups and referrals.</p>
+      <a href="doctor1.html" class="check-doctors-button">CHECK DOCTORS ></a>
+    </div>
+
+    <div class="section card fade-in fade-in-delay-2" data-specialization="obgyn">
+      <h3>OB-GYN Specialist</h3>
+      <p>Focus on women's health, including prenatal care, delivery, reproductive counseling, and gynecologic treatments.</p>
+      <a href="doctor2.html" class="check-doctors-button">CHECK DOCTORS ></a>
+    </div>
+
+    <div class="section card fade-in fade-in-delay-3" data-specialization="pathologist">
+      <h3>Pathologist</h3>
+      <p>Experts in diagnosis through lab tests like bloodwork, urinalysis, and biopsies to support clinical treatment plans.</p>
+      <a href="doctor3.html" class="check-doctors-button">CHECK DOCTORS ></a>
+    </div>
+
+    <div class="section card fade-in fade-in-delay-4" data-specialization="radiologist">
+      <h3>Radiologist</h3>
+      <p>Utilize imaging such as X-rays and ultrasounds to diagnose internal conditions and assist in clinical decisions.</p>
+      <a href="doctor4.html" class="check-doctors-button">CHECK DOCTORS ></a>
+    </div>
+
+    <div class="section card fade-in fade-in-delay-5" data-specialization="dentist">
+      <h3>Dentist</h3>
+      <p>Offers oral care such as cleanings, fillings, extractions, and checkups to ensure community dental health.</p>
+      <a href="doctor5.html" class="check-doctors-button">CHECK DOCTORS ></a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="fade-in fade-in-delay-4">
+    <div class="footer-logo-container">
+      <img src="footer.jpg" alt="Footer Logo" />
+    </div>
+    <div class="footer-container">
+      <div class="footer-item">
+        <p class="bold">Contact Us</p>
+        <p class="bold">Sebaste Community Hospital</p>
+        <p>Address: Azucena Extension Poblacion Sebaste, Antique, Sebaste, Philippines</p>
+        <p>Phone: +63 945 136 7487</p>
+      </div>
+      <div class="footer-item">
+        <p class="bold">Sebaste Rural Health Unit</p>
+        <p>Address: H3QV+4R6, Iloilo-Antique Rd, Sebaste, Antique</p>
+        <p>Phone: (036) 278 2077</p>
+      </div>
+    </div>
+    <p class="copyright">Copyright © Municipality of Sebaste 2025 - All Rights Reserved</p>
+  </footer>
+
+  <script>
+     window.addEventListener('DOMContentLoaded', () => {
+    const title = document.querySelector('.title');
+    if (title) {
+      // Delay a bit for a smoother effect
+      setTimeout(() => {
+        title.classList.add('show');
+      }, 300);
+    }
+  });
+    // Elegant fade-in animation on scroll
+    function handleScrollAnimations() {
+      const elements = document.querySelectorAll('.fade-in');
+      
+      elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('visible');
+        }
+      });
+    }
+
+    // Initialize animations on page load
+    window.addEventListener('load', () => {
+      setTimeout(handleScrollAnimations, 100);
+    });
+
+    // Handle scroll animations
+    window.addEventListener('scroll', handleScrollAnimations);
+
+    // Handle resize for responsive behavior
+    window.addEventListener('resize', handleScrollAnimations);
+
+    function filterSpecializations() {
+      const selectedValue = document.getElementById('specialization').value;
+      const cards = document.querySelectorAll('.card[data-specialization]');
+      
+      cards.forEach(card => {
+        if (selectedValue === 'all') {
+          card.classList.remove('hidden');
+        } else {
+          if (card.getAttribute('data-specialization') === selectedValue) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

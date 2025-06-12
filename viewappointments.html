@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Appointments - Sebaste Community Hospital</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }   
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #333;
+      background-color: #D7EEDE;
+      overflow-x: hidden;
+    }
+
+    /* Background with white filter */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('bg.jpg'); /* Replace with your background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.15; /* Subtle visibility */
+      z-index: -1;
+    }
+
+    /* ===== NAVBAR STYLES ===== */
+    .navbar-container {
+      background-color: white;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .navbar-container header {
+      height: 90px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hospital-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 60px;
+      overflow: hidden;
+    }
+
+    .logo-container img {
+      max-height: 79px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .hospital-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0B6A27;
+      text-align: left;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hospital-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* User info in navbar */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: #0B6A27;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    /* ===== DASHBOARD LAYOUT ===== */
+    .dashboard-container {
+      display: flex;
+      margin-top: 90px; /* Height of navbar */
+      min-height: calc(100vh - 90px);
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+      width: 280px;
+      background-color: white;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px 0;
+      position: fixed;
+      top: 90px; /* Below navbar */
+      left: 0;
+      height: calc(100vh - 90px);
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .sidebar-menu a:hover {
+      background-color: rgba(11, 106, 39, 0.1);
+    }
+
+    .sidebar-menu a.active {
+      background-color: rgba(11, 106, 39, 0.15);
+      border-left: 4px solid #0B6A27;
+      color: #0B6A27;
+    }
+
+    .sidebar-menu .icon {
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+
+    .sidebar-menu .icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Main content area */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      margin-left: 280px; /* Width of sidebar */
+    }
+
+    .dashboard-header {
+      margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* Health Records Styles */
+    .records-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .records-section {
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .records-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .records-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+    }
+
+    .records-title svg {
+      margin-right: 12px;
+      color: #0B6A27;
+    }
+
+    .medical-info {
+      margin-bottom: 20px;
+    }
+
+    .medical-info-row {
+      display: flex;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 10px;
+    }
+
+    .medical-info-label {
+      flex: 1;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .medical-info-value {
+      flex: 2;
+      color: #333;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background-color: #0B6A27;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #095020;
+    }
+
+    .btn-secondary {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e0e0e0;
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+   /* Upcoming appointments section */
+    .upcoming-appointments {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .appointment-list {
+      list-style: none;
+    }
+
+    .appointment-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .appointment-item:last-child {
+      border-bottom: none;
+    }
+
+    .appointment-item.cancelled {
+      opacity: 0.6;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .appointment-date {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(11, 106, 39, 0.1);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .appointment-day {
+      font-weight: 700;
+      font-size: 20px;
+      color: #0B6A27;
+    }
+
+    .appointment-month {
+      font-size: 14px;
+      color: #0B6A27;
+    }
+
+    .appointment-details {
+      flex: 1;
+    }
+
+    .appointment-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .appointment-doctor {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .appointment-time {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .appointment-id {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .appointment-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .appointment-btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .reschedule-btn {
+      background-color: rgba(11, 106, 39, 0.1);
+      color: #0B6A27;
+    }
+
+    .reschedule-btn:hover {
+      background-color: rgba(11, 106, 39, 0.2);
+    }
+
+    .cancel-btn {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+    }
+
+    .cancel-btn:hover {
+      background-color: rgba(220, 53, 69, 0.2);
+    }
+
+    .cancelled-btn {
+      background-color: #6c757d;
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .cancelled-status {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    /* Reschedule Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .modal-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #0B6A27;
+      box-shadow: 0 0 0 2px rgba(11, 106, 39, 0.1);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 30px;
+    }
+
+    .modal-btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-btn-primary {
+      background-color: #0B6A27;
+      color: white;
+    }
+
+    .modal-btn-primary:hover {
+      background-color: #095020;
+    }
+
+    .modal-btn-secondary {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .modal-btn-secondary:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 80px;
+        padding: 20px 0;
+      }
+
+      .sidebar-menu a {
+        padding: 15px;
+        justify-content: center;
+      }
+
+      .sidebar-menu .icon {
+        margin-right: 0;
+      }
+
+      .sidebar-menu .menu-text {
+        display: none;
+      }
+
+      .main-content {
+        margin-left: 80px;
+      }
+
+      .medical-info-row {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .medical-info-label {
+        flex: none;
+      }
+
+      .medical-info-value {
+        flex: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-container header {
+        padding: 0 20px;
+      }
+
+      .user-name {
+        display: none;
+      }
+
+      .records-section {
+        padding: 20px;
+      }
+
+      .tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .appointment-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .appointment-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .modal-content {
+        margin: 20px;
+        width: calc(100% - 40px);
+      }
+    }
+
+    @media (max-width: 576px) {
+      .sidebar {
+        width: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.active {
+        width: 250px;
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .visit-header {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .lab-results-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="navbar-container">
+    <header>
+      <div class="hospital-container">
+        <div class="logo-container">
+          <img src="logoright.jpg" alt="Logo Right" />
+        </div>
+        <div class="logo-container">
+          <img src="logoleft.jpg" alt="Logo Left" />
+        </div>
+        <div class="hospital-name">
+          <p class="hospital-line">Sebaste Community</p>
+          <p class="hospital-line">Hospital</p>
+        </div>
+      </div>
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">U</div>
+        <div class="user-name" id="userName">User</div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul class="sidebar-menu" >
+        <li>
+          <a href="dash.html" class ="active">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.20312 21.9844V3.28125H15.6953V21.9844H3.20312Z" fill="currentColor"/>
+                <path d="M25.3047 10.1719V3.28125H37.7969V10.1719H25.3047Z" fill="currentColor"/>
+                <path d="M25.3047 38.7188V20.0156H37.7969V38.7188H25.3047Z" fill="currentColor"/>
+                <path d="M3.20312 38.7188V31.8281H15.6953V38.7188H3.20312Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M22.1016 1.3125C22.1016 0.587626 22.6752 0 23.3828 0H39.7187C40.4264 0 41 0.587627 41 1.3125V12.1406C41 12.8655 40.4264 13.4531 39.7187 13.4531H23.3828C22.6752 13.4531 22.1016 12.8655 22.1016 12.1406V1.3125ZM25.3047 3.28125V10.1719H37.7969V3.28125H25.3047ZM22.1016 18.0469C22.1016 17.322 22.6752 16.7344 23.3828 16.7344H39.7187C40.4264 16.7344 41 17.322 41 18.0469V40.6875C41 41.4124 40.4264 42 39.7187 42H23.3828C22.6752 42 22.1016 41.4124 22.1016 40.6875V18.0469ZM25.3047 20.0156V38.7188H37.7969V20.0156H25.3047Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.6172 0H1.28125C0.573635 0 0 0.587626 0 1.3125V23.9531C0 24.678 0.573635 25.2656 1.28125 25.2656H17.6172C18.3248 25.2656 18.8984 24.678 18.8984 23.9531V1.3125C18.8984 0.587627 18.3248 0 17.6172 0ZM3.20312 3.28125V21.9844H15.6953V3.28125H3.20312Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.6172 28.5469H1.28125C0.573635 28.5469 0 29.1345 0 29.8594V40.6875C0 41.4124 0.573635 42 1.28125 42H17.6172C18.3248 42 18.8984 41.4124 18.8984 40.6875V29.8594C18.8984 29.1345 18.3248 28.5469 17.6172 28.5469ZM3.20312 31.8281V38.7188H15.6953V31.8281H3.20312Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="menu-text">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="appointments.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 45 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 17H42M3 17V37.5338C3 40.1474 3 41.4535 3.53134 42.4517C3.99873 43.3298 4.74396 44.0445 5.66125 44.4919C6.70305 45 8.06755 45 10.7925 45H34.2075C36.9324 45 38.295 45 39.3368 44.4919C40.2541 44.0445 41.0018 43.3298 41.4692 42.4517C42 41.4545 42 40.1501 42 37.5417V17M3 17V15.1338C3 12.5202 3 11.2124 3.53134 10.2142C3.99873 9.3361 4.74396 8.62271 5.66125 8.1753C6.70407 7.66667 8.07022 7.66667 10.8005 7.66667H12.75M42 17V15.1261C42 12.5177 42 11.2115 41.4692 10.2142C41.0018 9.3361 40.2541 8.62271 39.3368 8.1753C38.294 7.66667 36.9307 7.66667 34.2005 7.66667H32.25M12.75 7.66667H32.25M12.75 7.66667V3M32.25 7.66667V3M21.8906 35.6667C22.2272 35.6667 22.5 35.4055 22.5 35.0833V26.9167C22.5 26.5945 22.2272 26.3333 21.8906 26.3333H13.3594C13.0228 26.3333 12.75 26.5945 12.75 26.9167V35.0833C12.75 35.4055 13.0228 35.6667 13.3594 35.6667H21.8906Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="menu-text">Appointments</span>
+          </a>
+        </li>
+        <li>
+          <a href="healthrecordss.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 54 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M32.654 30.5L24.5665 27.75V16.251M46.133 25C46.133 12.8497 36.4774 3 24.5665 3C12.6557 3 3 12.8497 3 25C3 37.1503 12.6557 47 24.5665 47C32.5492 47 39.5189 42.5758 43.2478 36M40.2167 22.5857L45.6084 28.0857L51 22.5857" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="menu-text">Health Records</span>
+          </a>
+        </li>
+        <li>
+          <a href="settings.html">
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 50 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.3526 50.9167L17.3859 42.7834C16.8623 42.5716 16.3689 42.3174 15.9057 42.0209C15.4425 41.7243 14.9894 41.4066 14.5464 41.0678L7.35677 44.2448L0.710938 32.1719L6.93385 27.2157C6.89358 26.9191 6.87344 26.6332 6.87344 26.3579V24.6422C6.87344 24.3669 6.89358 24.0809 6.93385 23.7844L0.710938 18.8282L7.35677 6.75525L14.5464 9.93233C14.9894 9.59344 15.4526 9.27574 15.9359 8.97921C16.4193 8.68268 16.9026 8.42851 17.3859 8.21671L18.3526 0.083374H31.6443L32.6109 8.21671C33.1345 8.42851 33.628 8.68268 34.0911 8.97921C34.5543 9.27574 35.0075 9.59344 35.4505 9.93233L42.6401 6.75525L49.2859 18.8282L43.063 23.7844C43.1033 24.0809 43.1234 24.3669 43.1234 24.6422V26.3579C43.1234 26.6332 43.0832 26.9191 43.0026 27.2157L49.2255 32.1719L42.5797 44.2448L35.4505 41.0678C35.0075 41.4066 34.5443 41.7243 34.0609 42.0209C33.5776 42.3174 33.0943 42.5716 32.6109 42.7834L31.6443 50.9167H18.3526ZM25.1193 34.3959C27.4554 34.3959 29.4491 33.5275 31.1005 31.7907C32.7519 30.0539 33.5776 27.957 33.5776 25.5C33.5776 23.0431 32.7519 20.9462 31.1005 19.2094C29.4491 17.4726 27.4554 16.6042 25.1193 16.6042C22.7429 16.6042 20.7391 17.4726 19.1078 19.2094C17.4766 20.9462 16.6609 23.0431 16.6609 25.5C16.6609 27.957 17.4766 30.0539 19.1078 31.7907C20.7391 33.5275 22.7429 34.3959 25.1193 34.3959Z" fill="currentColor"/>
+    </span>
+    <span class="menu-text">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <h1>Upcoming Appointments</h1>
+        <p>View and manage your appointments</p>
+      </div>
+
+      <!-- Health Records Container -->
+      <div class="records-container">
+        <!-- Medical Summary Section -->
+        <div class="records-section">
+          <h2 class="records-title">
+             <svg width="24" height="24" viewBox="0 0 45 48" fill="none" stroke="currentColor"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 17H42M3 17V37.5338C3 40.1474 3 41.4535 3.53134 42.4517C3.99873 43.3298 4.74396 44.0445 5.66125 44.4919C6.70305 45 8.06755 45 10.7925 45H34.2075C36.9324 45 38.295 45 39.3368 44.4919C40.2541 44.0445 41.0018 43.3298 41.4692 42.4517C42 41.4545 42 40.1501 42 37.5417V17M3 17V15.1338C3 12.5202 3 11.2124 3.53134 10.2142C3.99873 9.3361 4.74396 8.62271 5.66125 8.1753C6.70407 7.66667 8.07022 7.66667 10.8005 7.66667H12.75M42 17V15.1261C42 12.5177 42 11.2115 41.4692 10.2142C41.0018 9.3361 40.2541 8.62271 39.3368 8.1753C38.294 7.66667 36.9307 7.66667 34.2005 7.66667H32.25M12.75 7.66667H32.25M12.75 7.66667V3M32.25 7.66667V3M21.8906 35.6667C22.2272 35.6667 22.5 35.4055 22.5 35.0833V26.9167C22.5 26.5945 22.2272 26.3333 21.8906 26.3333H13.3594C13.0228 26.3333 12.75 26.5945 12.75 26.9167V35.0833C12.75 35.4055 13.0228 35.6667 13.3594 35.6667H21.8906Z"/>
+              </svg>
+            Your Appointments
+          </h2>
+          
+          <div class="upcoming-appointments">
+            <ul class="appointment-list" id="appointmentList">
+              <li class="appointment-item">
+                <div class="appointment-date">
+                  <div class="appointment-day">--</div>
+                  <div class="appointment-month">---</div>
+                </div>
+                <div class="appointment-details">
+                  <h4 class="appointment-title">No Appointments Found</h4>
+                  <div class="appointment-doctor">You haven't scheduled any appointments yet</div>
+                  <div class="appointment-time">-</div>
+                </div>
+                <div class="appointment-actions">
+                  <a href="appointments.html" class="appointment-btn reschedule-btn">Schedule Appointment</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Reschedule Modal -->
+  <div class="modal-overlay" id="rescheduleModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Reschedule Appointment</h3>
+        <button class="close-btn" onclick="closeRescheduleModal()">&times;</button>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Appointment Type</label>
+        <input type="text" class="form-input" id="appointmentType" readonly>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Doctor</label>
+        <input type="text" class="form-input" id="appointmentDoctor" readonly>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">New Date</label>
+        <input type="date" class="form-input" id="newDate" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">New Time</label>
+        <input type="time" class="form-input" id="newTime" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Reason for Rescheduling (Optional)</label>
+        <textarea class="form-input" id="rescheduleReason" rows="3" placeholder="Please provide a reason for rescheduling..."></textarea>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-secondary" onclick="closeRescheduleModal()">Cancel</button>
+        <button class="modal-btn modal-btn-primary" onclick="confirmReschedule()">Confirm Reschedule</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // User Management System using localStorage
+    class UserManager {
+      constructor() {
+        this.currentUser = null;
+        this.loadCurrentUser();
+      }
+
+      // Load current user from localStorage
+      loadCurrentUser() {
+        try {
+          const currentUser = localStorage.getItem('currentUser');
+          this.currentUser = currentUser ? JSON.parse(currentUser) : null;
+        } catch (error) {
+          console.error('Error loading current user:', error);
+          this.currentUser = null;
+        }
+      }
+
+      // Get current user
+      getCurrentUser() {
+        return this.currentUser;
+      }
+    }
+
+    // Initialize user manager
+    const userManager = new UserManager();
+
+    function loadPatientData() {
+        try {
+            const currentUser = userManager.getCurrentUser();
+            
+            if (currentUser) {
+                // Update user info in navbar
+                const userAvatar = document.getElementById('userAvatar');
+                const userName = document.getElementById('userName');
+                
+                if (currentUser.firstName) {
+                    userAvatar.textContent = currentUser.firstName.charAt(0).toUpperCase();
+                    userName.textContent = currentUser.firstName;
+                }
+            } else {
+                console.log('No current user found');
+                window.location.href = 'index.html';
+            }
+        } catch (error) {
+            console.error('Error loading patient data:', error);
+            window.location.href = 'index.html';
+        }
+    }
+
+    function loadViewAppointments() {
+        try {
+            const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            const currentUser = userManager.getCurrentUser();
+            
+            // Filter appointments for current user
+            const userAppointments = appointments.filter(apt => apt.email === currentUser.email);
+            
+            const appointmentList = document.getElementById('appointmentList');
+            appointmentList.innerHTML = '';
+
+            if (userAppointments.length === 0) {
+                appointmentList.innerHTML = `
+                    <li class="appointment-item">
+                        <div class="appointment-date">
+                            <div class="appointment-day">--</div>
+                            <div class="appointment-month">---</div>
+                        </div>
+                        <div class="appointment-details">
+                            <h4 class="appointment-title">No Appointments Found</h4>
+                            <div class="appointment-doctor">You haven't scheduled any appointments yet</div>
+                            <div class="appointment-time">-</div>
+                        </div>
+                        <div class="appointment-actions">
+                            <a href="appointments.html" class="appointment-btn reschedule-btn">Schedule Appointment</a>
+                        </div>
+                    </li>
+                `;
+            } else {
+                // Sort appointments by date
+                const sortedAppointments = userAppointments.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate));
+
+                sortedAppointments.forEach(apt => {
+                    const aptDate = new Date(apt.appointmentDate);
+                    const day = aptDate.getDate().toString().padStart(2, '0');
+                    const month = aptDate.toLocaleDateString('en-US', { month: 'short' });
+
+                    const serviceType = apt.serviceType.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                    const doctorName = apt.doctor.replace(/dr-/g, 'Dr. ').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+                    const appointmentItem = document.createElement('li');
+                    appointmentItem.className = 'appointment-item';
+                    appointmentItem.id = `appointment-${apt.appointmentId}`;
+
+                    if (apt.status === 'cancelled') {
+                        appointmentItem.classList.add('cancelled');
+                    }
+
+                    appointmentItem.innerHTML = `
+                        <div class="appointment-date">
+                            <div class="appointment-day">${day}</div>
+                            <div class="appointment-month">${month}</div>
+                        </div>
+                        <div class="appointment-details">
+                            <h4 class="appointment-title">${serviceType}${apt.status === 'cancelled' ? ' <span class="cancelled-status">CANCELLED</span>' : ''}</h4>
+                            <div class="appointment-doctor">${doctorName}</div>
+                            <div class="appointment-time">${apt.appointmentTime}</div>
+                            <div class="appointment-id">ID: ${apt.appointmentId}</div>
+                        </div>
+                        <div class="appointment-actions">
+                            ${apt.status === 'cancelled' 
+                                ? '<button class="appointment-btn cancelled-btn" disabled>CANCELLED</button>'
+                                : `<button class="appointment-btn reschedule-btn" onclick="openRescheduleModal('${apt.appointmentId}', '${serviceType}', '${doctorName}')">Reschedule</button>
+                                   <button class="appointment-btn cancel-btn" onclick="cancelAppointment('${apt.appointmentId}')">Cancel</button>`
+                            }
+                        </div>
+                    `;
+                    appointmentList.appendChild(appointmentItem);
+                });
+            }
+        } catch (error) {
+            console.error('Error loading appointments:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+        }
+
+        // Check if user is logged in
+        const currentUser = userManager.getCurrentUser();
+        if (!currentUser) {
+            // Redirect to login if no user is logged in
+            window.location.href = 'index.html';
+            return;
+        }
+
+        loadPatientData();
+        loadViewAppointments();
+    });
+
+    // Enhanced reschedule modal functions
+    let currentAppointmentId = null;
+
+    function openRescheduleModal(appointmentId, appointmentType, doctor) {
+        currentAppointmentId = appointmentId;
+        document.getElementById('appointmentType').value = appointmentType;
+        document.getElementById('appointmentDoctor').value = doctor;
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('newDate').min = today;
+
+        // Clear previous values
+        document.getElementById('newDate').value = '';
+        document.getElementById('newTime').value = '';
+        document.getElementById('rescheduleReason').value = '';
+
+        document.getElementById('rescheduleModal').classList.add('active');
+    }
+
+    function closeRescheduleModal() {
+        document.getElementById('rescheduleModal').classList.remove('active');
+        currentAppointmentId = null;
+    }
+
+    function confirmReschedule() {
+        const newDate = document.getElementById('newDate').value;
+        const newTime = document.getElementById('newTime').value;
+        const reason = document.getElementById('rescheduleReason').value;
+
+        if (!newDate || !newTime) {
+            alert('Please select both date and time for your new appointment.');
+            return;
+        }
+
+        // Update appointment in localStorage
+        let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+        appointments = appointments.map(apt => {
+            if (apt.appointmentId === currentAppointmentId) {
+                return {
+                    ...apt,
+                    appointmentDate: newDate,
+                    appointmentTime: newTime,
+                    rescheduleReason: reason,
+                    status: 'rescheduled',
+                    updatedAt: new Date().toISOString()
+                };
+            }
+            return apt;
+        });
+
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+
+        // Refresh the display
+        loadViewAppointments();
+
+        // Show success message
+        const dateObj = new Date(newDate);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        alert(`Appointment successfully rescheduled to ${formattedDate} at ${newTime}${reason ? '\nReason: ' + reason : ''}`);
+
+        // Close modal
+        closeRescheduleModal();
+    }
+
+    function cancelAppointment(appointmentId) {
+        if (confirm('Are you sure you want to cancel this appointment?')) {
+            let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            appointments = appointments.map(apt => 
+                apt.appointmentId === appointmentId 
+                    ? { ...apt, status: 'cancelled', updatedAt: new Date().toISOString() }
+                    : apt
+            );
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            loadViewAppointments(); // Refresh the display
+            alert('Appointment cancelled successfully');
+        }
+    }
+
+    // Modal event listeners
+    document.getElementById('rescheduleModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeRescheduleModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.getElementById('rescheduleModal').classList.contains('active')) {
+            closeRescheduleModal();
+        }
+    });
+  </script>
+</body>
+</html>

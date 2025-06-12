@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dentist - Sebaste Community Hospital</title>
+  <link rel="stylesheet" href="used.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@500;600;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }   
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #D7EEDE;
+      color: #333;
+    }
+
+    /* ===== NAVBAR STYLES ===== */
+    .navbar-container {
+      background-color: white;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navbar-container header {
+      height: 90px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hospital-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 60px;
+      overflow: hidden;
+    }
+
+    .logo-container img {
+      max-height: 79px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .hospital-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0B6A27;
+      text-align: left;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hospital-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      color: #333333;
+      padding: 8px 16px;
+      border-radius: 10px;
+      transition: 0.3s ease-in-out;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: rgba(11, 106, 39, 0.2);
+    }
+
+    nav a:active,
+    nav a.active {
+      background-color: #0B6A27;
+      color: white;
+    }
+
+    /* Hero Section */
+    .photo-background-container {
+      background-color: #D7EEDE;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .background-container {
+      position: relative;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .background-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: inherit;
+      background-size: inherit;
+      background-position: inherit;
+      background-repeat: inherit;
+      filter: blur(2px);
+      z-index: 1;
+    }
+
+    .background-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(247, 237, 237, 0.685);
+      z-index: 2;
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 20px;
+    }
+  .title {
+      font-family: 'Poppins', sans-serif;
+      color: #000000;
+      font-weight: 900;
+      font-size: 50px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+
+        opacity: 0;
+  transform: translateY(30px); 
+  transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .title.animate-up{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+
+    .divider {
+      background-color: #0C634E;
+      width: 100%;
+      height: 80px;
+      margin-bottom: 20px;
+      margin-top: 0px;
+    }
+
+    .content {
+      max-width: 100%;
+      margin: 6rem auto;
+      padding: 0 2rem;
+      font-weight: 600;
+      font-size: 20px;
+      background-color: #D7EEDE;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section p {
+      font-size: 20px;
+      line-height: 1.9;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    /* Doctor styles */
+    .doctor-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .doctor-box {
+      background-color: white;
+      border: 2px solid #000000;
+      border-radius: 20px;
+      padding: 1rem;
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .doctor-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .doctor-image {
+      flex-shrink: 0;
+      width: 190px;
+      height: 290px;
+      border-radius: 15px;
+      overflow: hidden;
+      background-color: #5D988A;
+    }
+
+    .doctor-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .doctor-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .doctor-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .doctor-specialty {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .doctor-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+    .doctor-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .detail-icon {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-text {
+      font-weight: 500;
+    }
+
+    .back-button {
+      margin: 1rem 2rem;
+    }
+
+    .back-button button {
+      padding: 10px 20px;
+      background-color: #5D988A;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button button:hover {
+      background-color: #4a7a6d;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0C634E;
+      color: white;
+      padding: 40px 20px 20px 20px;
+      width: 100%;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .footer-logo-container {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px;
+      height: auto;
+      z-index: 10;
+    }
+
+    .footer-logo-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-left: 140px;
+    }
+
+    .footer-item {
+      flex: 1;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .footer-item p {
+      margin: 4px 0;
+    }
+
+    .bold {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .copyright {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 11px;
+      padding-left: 140px;
+    }
+
+    /* ===== ELEGANT FADE-IN ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0.2;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      filter: blur(1px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .fade-in-delay-1 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-3 {
+      transition-delay: 0.2s;
+    }
+
+    .fade-in-delay-4 {
+      transition-delay: 0.2s;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1366px) {
+      .navbar-container header {
+        padding: 0 20px;
+      }
+      
+      nav {
+        gap: 10px;
+      }
+      
+      nav a {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-container header {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 90px;
+      }
+
+      .hospital-container {
+        flex-wrap: wrap;
+      }
+
+      .hospital-name {
+        font-size: 18px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      nav a {
+        font-size: 12px;
+        padding: 4px 8px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+
+      .background-container {
+        height: 450px;
+      }
+
+      .content {
+        margin: 3rem auto;
+        padding: 0 1rem;
+      }
+
+      .doctor-box {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .doctor-image {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        padding-left: 20px;
+        gap: 20px;
+      }
+
+      .footer-logo-container {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
+        width: 80px;
+      }
+
+      .copyright {
+        padding-left: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-container header {
+        padding: 0 10px;
+      }
+
+      .hospital-name {
+        font-size: 16px;
+      }
+
+      .title {
+        font-size: 28px;
+      }
+
+      .content {
+        font-size: 18px;
+      }
+
+      .doctor-name {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar-container">
+    <header>
+      <div class="hospital-container">
+        <div class="logo-container">
+          <img src="logoright.jpg" alt="Logo Right" />
+        </div>
+        <div class="logo-container">
+          <img src="logoleft.jpg" alt="Logo Left" />
+        </div>
+        <div class="hospital-name">
+          <p class="hospital-line">Sebaste Community</p>
+          <p class="hospital-line">Hospital</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="DOCTOR.html" class="active">Find Doctors</a>
+        <a href="services.html">Our Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="FAQs.html">FAQs</a>
+      </nav>
+    </header>
+  </div>
+
+  <!-- Main Content Container -->
+  <div class="main-container">
+    <!-- Photo Background Container -->
+    <div class="photo-background-container">
+      <div class="background-container">
+        <div class="main-content">
+          <h1 class="title">DENTIST</h1>
+        </div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+
+    <div class="content">
+      <div class="section fade-in">
+        <p>At <strong>Sebaste Community Hospital</strong> our dental care team provides comprehensive oral health services for the whole family, from routine cleanings and preventive care to tooth extractions and oral health education, ensuring every smile in our community stays bright and healthy.</p>
+      </div>
+      
+      <div class="doctor-container">
+        <!-- Doctor Box -->
+        <div class="doctor-box fade-in fade-in-delay-1">
+          <div class="doctor-image">
+            <img src="reggie.jpg" alt="Dr. Reggie Quinto" />
+          </div>
+          <div class="doctor-info">
+            <h2 class="doctor-name">Dr. Reggie Quinto, DMD</h2>
+            <p class="doctor-specialty">Dentist</p>
+            <p class="doctor-description">
+              <strong style="color: #210c98">"Doc Reggie"</strong> is the resident Dentist of Sebaste Municipal Health Center. From tooth extractions, oral hygiene education, to dental check-ups for school children, he ensures every smile in Sebaste stays bright and healthy. He also assists in annual dental missions in partnership with the provincial health office.
+            </p>
+            <div class="doctor-details">
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.33333 30C2.41667 30 1.63222 29.7065 0.98 29.1195C0.327778 28.5325 0.00111111 27.826 0 27V6C0 5.175 0.326667 4.469 0.98 3.882C1.63333 3.295 2.41778 3.001 3.33333 3H5V1.5C5 1.075 5.16 0.719005 5.48 0.432005C5.8 0.145005 6.19556 0.00100517 6.66667 5.17241e-06C7.13778 -0.000994827 7.53389 0.143005 7.855 0.432005C8.17611 0.721005 8.33555 1.077 8.33333 1.5V3H21.6667V1.5C21.6667 1.075 21.8267 0.719005 22.1467 0.432005C22.4667 0.145005 22.8622 0.00100517 23.3333 5.17241e-06C23.8044 -0.000994827 24.2006 0.143005 24.5217 0.432005C24.8428 0.721005 25.0022 1.077 25 1.5V3H26.6667C27.5833 3 28.3683 3.294 29.0217 3.882C29.675 4.47 30.0011 5.176 30 6V27C30 27.825 29.6739 28.5315 29.0217 29.1195C28.3694 29.7075 27.5844 30.001 26.6667 30H3.33333ZM3.33333 27H26.6667V12H3.33333V27ZM15 18C14.5278 18 14.1322 17.856 13.8133 17.568C13.4944 17.28 13.3344 16.924 13.3333 16.5C13.3322 16.076 13.4922 15.72 13.8133 15.432C14.1344 15.144 14.53 15 15 15C15.47 15 15.8661 15.144 16.1883 15.432C16.5106 15.72 16.67 16.076 16.6667 16.5C16.6633 16.924 16.5033 17.2805 16.1867 17.5695C15.87 17.8585 15.4744 18.002 15 18ZM8.33333 18C7.86111 18 7.46555 17.856 7.14667 17.568C6.82778 17.28 6.66778 16.924 6.66667 16.5C6.66556 16.076 6.82555 15.72 7.14667 15.432C7.46778 15.144 7.86333 15 8.33333 15C8.80333 15 9.19944 15.144 9.52167 15.432C9.84389 15.72 10.0033 16.076 10 16.5C9.99667 16.924 9.83667 17.2805 9.52 17.5695C9.20333 17.8585 8.80778 18.002 8.33333 18ZM21.6667 18C21.1944 18 20.7989 17.856 20.48 17.568C20.1611 17.28 20.0011 16.924 20 16.5C19.9989 16.076 20.1589 15.72 20.48 15.432C20.8011 15.144 21.1967 15 21.6667 15C22.1367 15 22.5328 15.144 22.855 15.432C23.1772 15.72 23.3367 16.076 23.3333 16.5C23.33 16.924 23.17 17.2805 22.8533 17.5695C22.5367 17.8585 22.1411 18.002 21.6667 18ZM15 24C14.5278 24 14.1322 23.856 13.8133 23.568C13.4944 23.28 13.3344 22.924 13.3333 22.5C13.3322 22.076 13.4922 21.72 13.8133 21.432C14.1344 21.144 14.53 21 15 21C15.47 21 15.8661 21.144 16.1883 21.432C16.5106 21.72 16.67 22.076 16.6667 22.5C16.6633 22.924 16.5033 23.2805 16.1867 23.5695C15.87 23.8585 15.4744 24.002 15 24ZM8.33333 24C7.86111 24 7.46555 23.856 7.14667 23.568C6.82778 23.28 6.66778 22.924 6.66667 22.5C6.66556 22.076 6.82555 21.72 7.14667 21.432C7.46778 21.144 7.86333 21 8.33333 21C8.80333 21 9.19944 21.144 9.52167 21.432C9.84389 21.72 10.0033 22.076 10 22.5C9.99667 22.924 9.83667 23.2805 9.52 23.5695C9.20333 23.8585 8.80778 24.002 8.33333 24ZM21.6667 24C21.1944 24 20.7989 23.856 20.48 23.568C20.1611 23.28 20.0011 22.924 20 22.5C19.9989 22.076 20.1589 21.72 20.48 21.432C20.8011 21.144 21.1967 21 21.6667 21C22.1367 21 22.5328 21.144 22.855 21.432C23.1772 21.72 23.3367 22.076 23.3333 22.5C23.33 22.924 23.17 23.2805 22.8533 23.5695C22.5367 23.8585 22.1411 24.002 21.6667 24Z" fill="#352F36"/>
+                  </svg>
+                </div>
+                <span class="detail-text">Monday - Friday, 8AM - 4PM</span>
+              </div>
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M29.1629 20.7663L22.7509 18.0741C22.477 17.9597 22.1726 17.9356 21.8835 18.0054C21.5944 18.0752 21.3362 18.2351 21.1479 18.4611L18.3083 21.86C13.8519 19.8015 10.2655 16.2879 8.16429 11.922L11.6336 9.14005C11.8647 8.95591 12.0283 8.70301 12.0996 8.41965C12.1708 8.13629 12.1459 7.83789 12.0286 7.56963L9.28066 1.28792C9.15191 0.99874 8.92421 0.762636 8.6368 0.620318C8.3494 0.478 8.02032 0.438388 7.7063 0.508314L1.75234 1.85439C1.44959 1.92289 1.17947 2.08989 0.986077 2.32815C0.792682 2.56641 0.68743 2.86185 0.6875 3.16626C0.6875 17.5525 12.5897 29.1905 27.2513 29.1905C27.5621 29.1907 27.8638 29.0876 28.1071 28.8981C28.3505 28.7087 28.521 28.444 28.5909 28.1473L29.9649 22.3143C30.0358 22.0051 29.9946 21.6814 29.8482 21.3989C29.7018 21.1164 29.4594 20.8926 29.1629 20.7663Z" fill="#352F36"/>
+                  </svg>
+                </div>
+                <span class="detail-text">(036) 123 4567</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="back-button fade-in fade-in-delay-2">
+        <button onclick="history.back()">
+          &larr; Back
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="fade-in fade-in-delay-3">
+    <div class="footer-logo-container">
+      <img src="footer.jpg" alt="Footer Logo" />
+    </div>
+    <div class="footer-container">
+      <div class="footer-item">
+        <p class="bold">Contact Us</p>
+        <p class="bold">Sebaste Community Hospital</p>
+        <p>Address: Azucena Extension Poblacion Sebaste, Antique, Sebaste, Philippines</p>
+        <p>Phone: +63 945 136 7487</p>
+      </div>
+      <div class="footer-item">
+        <p class="bold">Sebaste Rural Health Unit</p>
+        <p>Address: H3QV+4R6, Iloilo-Antique Rd, Sebaste, Antique</p>
+        <p>Phone: (036) 278 2077</p>
+      </div>
+    </div>
+    <p class="copyright">Copyright © Municipality of Sebaste 2025 - All Rights Reserved</p>
+  </footer>
+
+  <script>
+     window.addEventListener('DOMContentLoaded', () => {
+    const title = document.querySelector('.title');
+    if (title) {
+      setTimeout(() => {
+        title.classList.add('animate-up');
+      }, 200); // Slight delay for smoother feel
+    }
+  });
+    // Elegant fade-in animation on scroll
+    function handleScrollAnimations() {
+      const elements = document.querySelectorAll('.fade-in');
+      
+      elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('visible');
+        }
+      });
+    }
+
+    // Initialize animations on page load
+    window.addEventListener('load', () => {
+      setTimeout(handleScrollAnimations, 100);
+    });
+
+    // Handle scroll animations
+    window.addEventListener('scroll', handleScrollAnimations);
+
+    // Handle resize for responsive behavior
+    window.addEventListener('resize', handleScrollAnimations);
+  </script>
+</body>
+</html>
