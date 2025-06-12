@@ -1093,7 +1093,9 @@
         });
 
         function loadPatientData() {
+            // Load from both appointments and hospital users
             const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            const hospitalUsers = JSON.parse(localStorage.getItem('hospitalUsers') || '[]');
             const patients = {};
             const today = new Date().toISOString().split('T')[0];
             
@@ -1119,6 +1121,28 @@
                 // Update last appointment date
                 if (new Date(apt.appointmentDate) > new Date(patients[apt.email].lastAppointment)) {
                     patients[apt.email].lastAppointment = apt.appointmentDate;
+                }
+            });
+
+            // Process hospital users (from registration form)
+            hospitalUsers.forEach(user => {
+                if (!patients[user.email]) {
+                    patients[user.email] = {
+                        fullName: user.fullName || `${user.firstName} ${user.lastName}`,
+                        age: user.age || calculateAge(user.birthday),
+                        gender: user.gender,
+                        contact: user.mobileNumber,
+                        email: user.email,
+                        registrationDate: user.registrationDate ? user.registrationDate.split('T')[0] : today,
+                        lastAppointment: 'No appointments',
+                        status: user.hasCompletedRegistration ? 'active' : 'inactive',
+                        appointments: [],
+                        isRegistrationOnly: true
+                    };
+                } else {
+                    // Update existing patient with registration data
+                    patients[user.email].age = user.age || patients[user.email].age;
+                    patients[user.email].fullName = user.fullName || patients[user.email].fullName;
                 }
             });
 
@@ -1166,8 +1190,8 @@
             if (patients.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="9" style="text-align: center; padding: 40px; color: #666;">
-                            No patients found. Patients will appear here after appointment bookings.
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #666;">
+                            No patients found. Patients will appear here after appointment bookings or registrations.
                         </td>
                     </tr>
                 `;
@@ -1177,13 +1201,12 @@
             patients.forEach(patient => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-        
                     <td>${patient.fullName}</td>
                     <td>${patient.age}</td>
                     <td>${patient.gender}</td>
                     <td>${patient.contact}</td>
                     <td>${new Date(patient.registrationDate).toLocaleDateString()}</td>
-                    <td>${new Date(patient.lastAppointment).toLocaleDateString()}</td>
+                    <td>${patient.lastAppointment === 'No appointments' ? 'No appointments' : new Date(patient.lastAppointment).toLocaleDateString()}</td>
                     <td><span class="status-badge status-${patient.status}">${patient.status}</span></td>
                     <td>
                         <button class="action-btn view-btn" onclick="viewPatientDetails('${patient.email}')">View Details</button>
@@ -1207,7 +1230,9 @@
 
         function applyFilters() {
             const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            const hospitalUsers = JSON.parse(localStorage.getItem('hospitalUsers') || '[]');
             const patients = {};
+            const today = new Date().toISOString().split('T')[0];
             
             // Rebuild patient data
             appointments.forEach(apt => {
@@ -1228,6 +1253,25 @@
                 patients[apt.email].appointments.push(apt);
             });
 
+            // Add hospital users
+            hospitalUsers.forEach(user => {
+                if (!patients[user.email]) {
+                    patients[user.email] = {
+                        id: generatePatientId(),
+                        fullName: user.fullName || `${user.firstName} ${user.lastName}`,
+                        age: user.age || calculateAge(user.birthday),
+                        gender: user.gender,
+                        contact: user.mobileNumber,
+                        email: user.email,
+                        registrationDate: user.registrationDate ? user.registrationDate.split('T')[0] : today,
+                        lastAppointment: 'No appointments',
+                        status: user.hasCompletedRegistration ? 'active' : 'inactive',
+                        appointments: [],
+                        isRegistrationOnly: true
+                    };
+                }
+            });
+
             let filteredPatients = Object.values(patients);
 
             // Apply filters
@@ -1245,7 +1289,7 @@
             }
 
             if (genderFilter) {
-                filteredPatients = filteredPatients.filter(patient => patient.gender === genderFilter);
+                filteredPatients = filteredPatients.filter(patient => patient.gender.toLowerCase() === genderFilter);
             }
 
             if (statusFilter) {
@@ -1261,21 +1305,27 @@
 
         function viewPatientDetails(email) {
             const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            const hospitalUsers = JSON.parse(localStorage.getItem('hospitalUsers') || '[]');
+            
+            // Find patient in hospital users first (registration data)
+            const registrationData = hospitalUsers.find(user => user.email === email);
             const patientAppointments = appointments.filter(apt => apt.email === email);
             
-            if (patientAppointments.length === 0) return;
+            if (!registrationData && patientAppointments.length === 0) return;
 
-            const patient = patientAppointments[0];
             const patientDetails = document.getElementById('patientDetails');
+            
+            // Use registration data if available, otherwise use appointment data
+            const patient = registrationData || patientAppointments[0];
             
             patientDetails.innerHTML = `
                 <div class="detail-row">
                     <div class="detail-label">Full Name:</div>
-                    <div class="detail-value">${patient.firstName} ${patient.lastName}</div>
+                    <div class="detail-value">${registrationData ? registrationData.fullName : `${patient.firstName} ${patient.lastName}`}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Age:</div>
-                    <div class="detail-value">${calculateAge(patient.birthDate)}</div>
+                    <div class="detail-value">${registrationData ? registrationData.age : calculateAge(patient.birthDate)} years old</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Gender:</div>
@@ -1283,7 +1333,7 @@
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Contact:</div>
-                    <div class="detail-value">${patient.phone}</div>
+                    <div class="detail-value">${registrationData ? registrationData.mobileNumber : patient.phone}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Email:</div>
@@ -1291,22 +1341,46 @@
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Birth Date:</div>
-                    <div class="detail-value">${patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : 'N/A'}</div>
+                    <div class="detail-value">${registrationData ? (registrationData.birthday ? new Date(registrationData.birthday).toLocaleDateString() : 'N/A') : (patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : 'N/A')}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Registration:</div>
-                    <div class="detail-value">${new Date(patient.submittedAt).toLocaleDateString()}</div>
+                    <div class="detail-value">${registrationData ? new Date(registrationData.registrationDate).toLocaleDateString() : new Date(patient.submittedAt).toLocaleDateString()}</div>
                 </div>
+                
+                ${registrationData ? `
+                <h4 style="margin-top: 25px; margin-bottom: 15px; color: #333;">Medical Information</h4>
+                <div class="detail-row">
+                    <div class="detail-label">Blood Type:</div>
+                    <div class="detail-value">${registrationData.bloodType || 'N/A'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Height:</div>
+                    <div class="detail-value">${registrationData.height || 'N/A'} ${registrationData.heightUnit || ''}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Weight:</div>
+                    <div class="detail-value">${registrationData.weight || 'N/A'} ${registrationData.weightUnit || ''}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Medical Conditions:</div>
+                    <div class="detail-value">${registrationData.medicalConditions ? registrationData.medicalConditions.join(', ') : 'None'}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Allergies:</div>
+                    <div class="detail-value">${registrationData.hasAllergies === 'Yes' ? registrationData.allergySpecification || 'Yes' : 'No'}</div>
+                </div>
+                ` : ''}
                 
                 <h4 style="margin-top: 25px; margin-bottom: 15px; color: #333;">Appointment History</h4>
                 <div style="max-height: 200px; overflow-y: auto;">
-                    ${patientAppointments.map(apt => `
+                    ${patientAppointments.length > 0 ? patientAppointments.map(apt => `
                         <div style="padding: 10px; border: 1px solid #eee; border-radius: 5px; margin-bottom: 10px;">
                             <strong>${new Date(apt.appointmentDate).toLocaleDateString()}</strong> at ${apt.appointmentTime}<br>
                             <span style="color: #666;">${apt.serviceType.replace(/-/g, ' ')} with ${apt.doctor.replace('dr-', 'Dr. ').replace(/-/g, ' ')}</span><br>
                             <span class="status-badge status-${apt.status === 'cancelled' ? 'inactive' : 'active'}">${apt.status}</span>
                         </div>
-                    `).join('')}
+                    `).join('') : '<p style="color: #666; font-style: italic;">No appointments found</p>'}
                 </div>
             `;
 
@@ -1326,3 +1400,4 @@
     </script>
 </body>
 </html>
+
