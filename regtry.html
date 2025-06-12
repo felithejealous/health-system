@@ -367,6 +367,18 @@
             color: #dc3545;
         }
 
+        /* Age display styles */
+        .age-display {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            font-weight: 600;
+            color: #0B6A27;
+            font-size: 14px;
+        }
+
         /* Form Navigation */
         .form-navigation {
             display: flex;
@@ -697,6 +709,9 @@
                         <div class="form-group">
                             <label for="birthday" class="required">Birthday</label>
                             <input type="date" id="birthday" name="birthday" required>
+                            <div id="ageDisplay" class="age-display" style="display: none;">
+                                Age: <span id="calculatedAge">0</span> years old
+                            </div>
                         </div>
                     </div>
                     <div class="form-row">
@@ -1072,6 +1087,7 @@
                         <p><strong>Address:</strong> <span id="receiptAddress"></span></p>
                         <p><strong>Mobile Number:</strong> <span id="receiptMobileNumber"></span></p>
                         <p><strong>Birthday:</strong> <span id="receiptBirthday"></span></p>
+                        <p><strong>Age:</strong> <span id="receiptAge"></span> years old</p>
                         <p><strong>Gender:</strong> <span id="receiptGender"></span></p>
                         <p><strong>Email Address:</strong> <span id="receiptEmail"></span></p>
                     </div>
@@ -1277,6 +1293,38 @@
     // Store collected data
     const formData = {};
 
+    // Age calculation function
+    function calculateAge(birthDate) {
+        if (!birthDate) return 0;
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    // Function to update age display
+    function updateAgeDisplay() {
+        const birthdayInput = document.getElementById('birthday');
+        const ageDisplay = document.getElementById('ageDisplay');
+        const calculatedAgeSpan = document.getElementById('calculatedAge');
+        
+        if (birthdayInput.value) {
+            const age = calculateAge(birthdayInput.value);
+            calculatedAgeSpan.textContent = age;
+            ageDisplay.style.display = 'block';
+            
+            // Store the calculated age in formData
+            formData.age = age;
+        } else {
+            ageDisplay.style.display = 'none';
+            delete formData.age;
+        }
+    }
+
     // New function for auto-resizing textareas
     function autoResizeTextarea(textarea) {
         textarea.style.height = 'auto'; // Reset height to recalculate
@@ -1427,6 +1475,11 @@
             });
             formData.medications = medications;
         }
+
+        // Ensure age is calculated and stored when birthday is saved
+        if (step === 1 && formData.birthday) {
+            formData.age = calculateAge(formData.birthday);
+        }
     }
 
     // Navigate to the next form
@@ -1480,6 +1533,7 @@
         document.getElementById('receiptAddress').textContent = formData.address || 'N/A';
         document.getElementById('receiptMobileNumber').textContent = formData.mobileNumber || 'N/A';
         document.getElementById('receiptBirthday').textContent = formData.birthday || 'N/A';
+        document.getElementById('receiptAge').textContent = formData.age || 'N/A';
         document.getElementById('receiptGender').textContent = formData.gender || 'N/A';
         document.getElementById('receiptEmail').textContent = formData.email || 'N/A';
 
@@ -1588,6 +1642,7 @@
                 address: formData.address || '',
                 mobileNumber: formData.mobileNumber || '',
                 birthday: formData.birthday || '',
+                age: formData.age || 0,
                 gender: formData.gender || '',
                 email: formData.email || '',
                 
@@ -1810,6 +1865,13 @@
 
     // Initial calls to hide/show details based on default radio selection (if any)
     document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener for birthday input to calculate age
+        const birthdayInput = document.getElementById('birthday');
+        if (birthdayInput) {
+            birthdayInput.addEventListener('change', updateAgeDisplay);
+            birthdayInput.addEventListener('input', updateAgeDisplay);
+        }
+
         // Auto-resize for 'disabilities' textarea
         const disabilitiesTextarea = document.getElementById('disabilities');
         if (disabilitiesTextarea) {
@@ -1840,3 +1902,4 @@
 
 </body>
 </html>
+
